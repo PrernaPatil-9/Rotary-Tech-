@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROTARY TECH · Industrial Solutions</title>
+    <!-- Tailwind via CDN + basic inter family -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: industrial premium mix -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- GSAP & ScrollTrigger / ScrollTo -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        * { font-family: 'Open Sans', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        .bg-industrial-blue { background-color: #0B1F3A; }
+        .bg-industrial-grey { background-color: #2F3E46; }
+        .bg-industrial-orange { background-color: #F77F00; }
+        .text-industrial-orange { color: #F77F00; }
+        .border-industrial-orange { border-color: #F77F00; }
+        .hover-orange:hover { color: #F77F00; transition: color 0.2s; }
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2); }
+        .parallax-bg { background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover; }
+        /* mobile accordion dropdown */
+        .dropdown-toggle .arrow { transition: transform 0.3s; }
+        .dropdown-toggle.open .arrow { transform: rotate(180deg); }
+        /* mega menu desktop */
+        .mega-menu { display: none; }
+        .group:hover .mega-menu { display: flex; }
+        @media (max-width: 1023px) {
+            .group:hover .mega-menu { display: none; } /* disable hover on tablet/mobile */
+        }
+        /* simple reset for overlay */
+        .hero-overlay { background: rgba(11, 31, 58, 0.75); }
+        .counter-number { font-size: 2.2rem; font-weight: 700; }
+        /* hide mobile menu initially */
+        .mobile-nav { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .mobile-nav.open { transform: translateX(0); }
+    </style>
+</head>
+<body class="bg-white text-[#2F3E46] antialiased overflow-x-hidden">
+
+    <!-- STICKY HEADER -->
+    <header class="sticky top-0 z-50 bg-industrial-blue text-white shadow-lg">
+        <!-- top bar -->
+        <div class="hidden lg:flex bg-[#0b1729] text-sm py-2 px-6 items-center justify-between text-gray-300">
+            <div class="flex space-x-6">
+                <span class="flex items-center gap-1">📍 Bhiwandi, Thane, Maharashtra</span>
+                <span class="flex items-center gap-1">📞 7021649368</span>
+                <span class="flex items-center gap-1">✉️ rotarytech.ind@gmail.com</span>
+            </div>
+            <div class="text-xs">ISO 9001:2024 · Industrial Engineers</div>
+        </div>
+        <!-- main navbar -->
+        <div class="container mx-auto px-4 lg:px-6 flex items-center justify-between py-3 lg:py-4">
+            <!-- logo -->
+            <a href="#" class="heading-font text-2xl lg:text-3xl font-extrabold tracking-tight text-white"><span class="text-industrial-orange">ROTARY</span> TECH</a>
+            
+            <!-- desktop navigation -->
+            <nav class="hidden lg:flex items-center space-x-7 text-sm font-semibold">
+                <a href="#home" class="hover-orange">Home</a>
+                <a href="#about" class="hover-orange">About</a>
+                <a href="#industries" class="hover-orange">Industries</a>
+                <!-- services dropdown (desktop) -->
+                <div class="relative group">
+                    <button class="flex items-center hover-orange">Services <span class="ml-1 text-xl leading-4 arrow-drop">▼</span></button>
+                    <!-- mega menu 3 cols -->
+                    <div class="mega-menu absolute left-0 top-full w-[750px] bg-white text-industrial-grey rounded-b-xl shadow-2xl p-6 gap-6 z-50 border-t-4 border-industrial-orange">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-industrial-blue border-b pb-1">🔧 Repair & Refurbishment</h4>
+                            <ul class="mt-3 space-y-2 text-sm"> <li>Pump Repair & Overhaul</li><li>Compressor Repair</li><li>Diesel Generator Servicing</li><li>Rotary Equipment Refurbishment</li><li>Performance Upgrade Services</li> </ul>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-industrial-blue border-b pb-1">⚙️ Engineering Services</h4>
+                            <ul class="mt-3 space-y-2 text-sm"> <li>Installation & Commissioning</li><li>Alignment & Calibration</li><li>Fabrication of Emergency Spares</li><li>Reverse Engineering</li><li>Technical Consultancy</li> </ul>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-industrial-blue border-b pb-1">👥 Manpower Support</h4>
+                            <ul class="mt-3 space-y-2 text-sm"> <li>On-Site Support</li><li>Off-Site Technical Support</li><li>Breakdown Maintenance</li><li>Preventive Maintenance</li><li>Shutdown & Emergency Support</li> </ul>
+                        </div>
+                    </div>
+                </div>
+                <a href="#process" class="hover-orange">Process</a>
+                <a href="#contact" class="hover-orange">Contact</a>
+            </nav>
+            <!-- cta + mobile menu button -->
+            <div class="flex items-center gap-3">
+                <a href="#contact" class="hidden lg:block bg-industrial-orange hover:bg-amber-600 text-white font-bold px-5 py-2 rounded-full text-sm transition">Get a Quote</a>
+                <!-- hamburger -->
+                <button id="menuBtn" class="lg:hidden text-white text-3xl focus:outline-none">☰</button>
+            </div>
+        </div>
+        <!-- mobile slide-in menu -->
+        <div id="mobileNav" class="mobile-nav fixed top-0 left-0 w-64 h-full bg-industrial-blue z-50 p-5 shadow-xl lg:hidden">
+            <button id="closeBtn" class="text-white text-3xl absolute top-2 right-4">&times;</button>
+            <div class="mt-12 flex flex-col space-y-5 text-white text-lg">
+                <a href="#home" class="hover-orange">Home</a>
+                <a href="#about" class="hover-orange">About</a>
+                <a href="#industries" class="hover-orange">Industries</a>
+                <!-- mobile dropdown accordion -->
+                <div class="relative">
+                    <button id="mobileServicesToggle" class="flex items-center justify-between w-full hover-orange">Services <span class="arrow text-xl">▼</span></button>
+                    <div id="mobileServicesMenu" class="hidden mt-3 pl-3 space-y-3 text-sm bg-[#1e3a5f] p-3 rounded">
+                        <div> <span class="font-semibold">🔧 Repair & Refurbishment</span> <ul class="pl-3 list-disc"><li>Pump Repair</li><li>Compressor Repair</li><li>DG Servicing</li><li>Refurbishment</li><li>Upgrades</li> </ul> </div>
+                        <div> <span class="font-semibold">⚙️ Engineering Services</span> <ul class="pl-3 list-disc"><li>Installation</li><li>Alignment</li><li>Emergency Spares</li><li>Reverse Engg</li><li>Consultancy</li> </ul> </div>
+                        <div> <span class="font-semibold">👥 Manpower Support</span> <ul class="pl-3 list-disc"><li>On-Site</li><li>Off-Site</li><li>Breakdown</li><li>Preventive</li><li>Shutdown</li> </ul> </div>
+                    </div>
+                </div>
+                <a href="#process" class="hover-orange">Process</a>
+                <a href="#contact" class="hover-orange">Contact</a>
+                <a href="#contact" class="bg-industrial-orange text-center py-2 rounded-full font-bold">Get a Quote</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION with parallax -->
+        <section id="home" class="relative h-screen flex items-center justify-center parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-attachment: fixed;">
+            <div class="hero-overlay absolute inset-0"></div>
+            <div class="relative z-10 text-center text-white px-4 max-w-5xl">
+                <h1 class="heading-font text-5xl md:text-7xl font-extrabold leading-tight reveal-headline">Precision Rotary Solutions <br>for Critical Industries</h1>
+                <p class="text-xl md:text-2xl mt-6 text-gray-200 reveal-subhead">Repair • Refurbishment • Engineering Services • Skilled Manpower</p>
+                <div class="mt-10 flex flex-wrap gap-5 justify-center reveal-buttons">
+                    <a href="#contact" class="bg-industrial-orange text-white font-bold px-8 py-4 rounded-full text-lg shadow-xl hover:bg-amber-600 transition">Get a Quote</a>
+                    <a href="#contact" class="bg-transparent border-2 border-white text-white font-bold px-8 py-4 rounded-full text-lg hover:bg-white hover:text-industrial-blue transition">Contact Us</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="py-24 bg-gray-50">
+            <div class="container mx-auto px-4 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="about-image overflow-hidden rounded-2xl shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?q=80&w=2070&auto=format&fit=crop" alt="rotary workshop" class="w-full h-auto transform scale-105 hover:scale-110 transition duration-700">
+                    </div>
+                    <div class="about-text space-y-6">
+                        <h2 class="heading-font text-4xl md:text-5xl text-industrial-blue">Industrial <span class="text-industrial-orange">excellence</span> since 1998</h2>
+                        <p class="text-lg text-gray-700">ROTARY TECH specializes in high-precision rotary equipment services. We reduce downtime and extend machinery life for oil, gas, power, and chemical plants. Our certified engineers deliver refurbishment, emergency repairs, and manpower support.</p>
+                        <div class="grid grid-cols-2 gap-4 pt-4">
+                            <div class="border-l-4 border-industrial-orange pl-3"><span class="font-bold text-2xl">500+</span> <span class="block">projects</span></div>
+                            <div class="border-l-4 border-industrial-orange pl-3"><span class="font-bold text-2xl">24/7</span> <span class="block">emergency</span></div>
+                            <div class="border-l-4 border-industrial-orange pl-3"><span class="font-bold text-2xl">15+</span> <span class="block">industries</span></div>
+                            <div class="border-l-4 border-industrial-orange pl-3"><span class="font-bold text-2xl">98%</span> <span class="block">uptime</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INDUSTRIES GRID -->
+        <section id="industries" class="py-24 bg-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="heading-font text-4xl md:text-5xl text-industrial-blue">Industries <span class="text-industrial-orange">we power</span></h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mt-16">
+                    <div class="card-hover bg-gray-100 p-6 rounded-2xl flex flex-col items-center"><span class="text-5xl mb-3">🛢️</span><span class="font-bold">Oil & Gas</span></div>
+                    <div class="card-hover bg-gray-100 p-6 rounded-2xl flex flex-col items-center"><span class="text-5xl mb-3">🧪</span><span class="font-bold">Petrochemical</span></div>
+                    <div class="card-hover bg-gray-100 p-6 rounded-2xl flex flex-col items-center"><span class="text-5xl mb-3">⚡</span><span class="font-bold">Power Gen</span></div>
+                    <div class="card-hover bg-gray-100 p-6 rounded-2xl flex flex-col items-center"><span class="text-5xl mb-3">🌱</span><span class="font-bold">Fertilizer</span></div>
+                    <div class="card-hover bg-gray-100 p-6 rounded-2xl flex flex-col items-center"><span class="text-5xl mb-3">🏭</span><span class="font-bold">Heavy Mfg</span></div>
+                    <div class="card-hover bg-gray-100 p-6 rounded-2xl flex flex-col items-center"><span class="text-5xl mb-3">💧</span><span class="font-bold">Water treatment</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION (Detailed 3 cards) -->
+        <section id="services" class="py-24 bg-industrial-blue text-white">
+            <div class="container mx-auto px-4">
+                <h2 class="heading-font text-4xl md:text-5xl text-center text-white">our <span class="text-industrial-orange">expertise</span></h2>
+                <div class="grid md:grid-cols-3 gap-8 mt-16">
+                    <div class="card-hover bg-[#1e3347] p-8 rounded-3xl border-b-4 border-industrial-orange">
+                        <span class="text-6xl">🔧</span><h3 class="text-2xl font-bold my-3">Repair & Refurbishment</h3><ul class="list-disc pl-5 text-gray-300 space-y-1 text-sm"><li>Centrifugal pumps</li><li>Reciprocating compressors</li><li>DG sets</li><li>Rotary kilns</li><li>Performance upgrades</li></ul>
+                    </div>
+                    <div class="card-hover bg-[#1e3347] p-8 rounded-3xl border-b-4 border-industrial-orange">
+                        <span class="text-6xl">⚙️</span><h3 class="text-2xl font-bold my-3">Engineering Services</h3><ul class="list-disc pl-5 text-gray-300 space-y-1 text-sm"><li>Commissioning</li><li>Laser alignment</li><li>Reverse engineering</li><li>Spare fabrication</li><li>Technical audits</li></ul>
+                    </div>
+                    <div class="card-hover bg-[#1e3347] p-8 rounded-3xl border-b-4 border-industrial-orange">
+                        <span class="text-6xl">👷</span><h3 class="text-2xl font-bold my-3">Skilled Manpower</h3><ul class="list-disc pl-5 text-gray-300 space-y-1 text-sm"><li>On-site specialists</li><li>Shutdown crews</li><li>Breakdown response</li><li>Preventive routines</li><li>24/7 emergency</li></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROCESS TIMELINE (horizontal desktop) -->
+        <section id="process" class="py-24 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="heading-font text-4xl md:text-5xl text-industrial-blue text-center">our <span class="text-industrial-orange">workflow</span></h2>
+                <div class="process-timeline flex flex-wrap lg:flex-nowrap justify-between items-start mt-20 gap-4 relative">
+                    <div class="step text-center w-full lg:w-1/7"><div class="bg-industrial-orange text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto font-bold">1</div><p class="mt-2 font-semibold">Inspection</p></div>
+                    <div class="step text-center w-full lg:w-1/7"><div class="bg-industrial-orange text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto font-bold">2</div><p>Diagnosis</p></div>
+                    <div class="step text-center w-full lg:w-1/7"><div class="bg-industrial-orange text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto font-bold">3</div><p>Planning</p></div>
+                    <div class="step text-center w-full lg:w-1/7"><div class="bg-industrial-orange text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto font-bold">4</div><p>Execution</p></div>
+                    <div class="step text-center w-full lg:w-1/7"><div class="bg-industrial-orange text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto font-bold">5</div><p>Testing</p></div>
+                    <div class="step text-center w-full lg:w-1/7"><div class="bg-industrial-orange text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto font-bold">6</div><p>Delivery</p></div>
+                    <div class="step text-center w-full lg:w-1/7"><div class="bg-industrial-orange text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto font-bold">7</div><p>Support</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US (with counters) -->
+        <section id="why" class="py-24 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="heading-font text-4xl md:text-5xl text-industrial-blue text-center">why <span class="text-industrial-orange">ROTARY TECH</span></h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+                    <div class="p-6 border rounded-xl shadow-sm flex flex-col items-center counter-item"><span class="text-5xl mb-2">🔬</span><h3 class="font-bold text-xl">Expertise</h3><p class="text-center text-gray-600">30+ years domain experience</p><div class="counter-number text-industrial-orange" data-target="30">0</div><span>years</span></div>
+                    <div class="p-6 border rounded-xl shadow-sm flex flex-col items-center counter-item"><span class="text-5xl mb-2">⚡</span><h3 class="font-bold text-xl">Advanced Tech</h3><p>laser alignment, vibration</p><div class="counter-number text-industrial-orange" data-target="100">0</div><span>% precision</span></div>
+                    <div class="p-6 border rounded-xl shadow-sm flex flex-col items-center counter-item"><span class="text-5xl mb-2">⏱️</span><h3 class="font-bold text-xl">Reliability</h3><p>98% uptime guarantee</p><div class="counter-number text-industrial-orange" data-target="98">0</div><span>%</span></div>
+                    <div class="p-6 border rounded-xl shadow-sm flex flex-col items-center counter-item"><span class="text-5xl mb-2">💰</span><h3 class="font-bold text-xl">Competitive Pricing</h3><p>cost effective solutions</p></div>
+                    <div class="p-6 border rounded-xl shadow-sm flex flex-col items-center counter-item"><span class="text-5xl mb-2">🛡️</span><h3 class="font-bold text-xl">Safety standards</h3><p>ISO 45001, zero incidents</p></div>
+                    <div class="p-6 border rounded-xl shadow-sm flex flex-col items-center counter-item"><span class="text-5xl mb-2">📞</span><h3 class="font-bold text-xl">24/7 Support</h3><p>emergency response</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT + MAP -->
+        <section id="contact" class="py-24 bg-industrial-grey text-white">
+            <div class="container mx-auto px-4">
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <div>
+                        <h2 class="heading-font text-4xl lg:text-5xl">Let’s restore your equipment <span class="text-industrial-orange">performance today</span></h2>
+                        <div class="mt-10 space-y-4 text-lg">
+                            <p>📍 Bhiwandi, Thane, Maharashtra 421302</p>
+                            <p>📞 7021649368</p>
+                            <p>✉️ rotarytech.ind@gmail.com</p>
+                        </div>
+                        <form class="mt-8 space-y-5 max-w-md">
+                            <input type="text" placeholder="Name" class="w-full p-3 rounded-lg text-black">
+                            <input type="email" placeholder="Email" class="w-full p-3 rounded-lg text-black">
+                            <textarea placeholder="Tell us about your equipment" class="w-full p-3 rounded-lg text-black" rows="3"></textarea>
+                            <button class="bg-industrial-orange text-white font-bold px-8 py-3 rounded-full hover:bg-amber-600 transition">Send message</button>
+                        </form>
+                    </div>
+                    <div class="h-80 lg:h-auto rounded-2xl overflow-hidden shadow-xl">
+                        <iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609823277!2d72.88118620749993!3d19.12570169999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c97cd5c3b4b5%3A0x2f7e8e3b5b1b0a0!2sThane%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1620000000000" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-industrial-blue py-6 text-center text-gray-400 text-sm border-t border-gray-700">
+        © 2025 ROTARY TECH · all rights reserved · B2B industrial solutions
+    </footer>
+
+    <script>
+        (function(){
+            // mobile menu
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            if (menuBtn) menuBtn.addEventListener('click', ()=> mobileNav.classList.add('open'));
+            if (closeBtn) closeBtn.addEventListener('click', ()=> mobileNav.classList.remove('open'));
+
+            // mobile services accordion
+            const toggle = document.getElementById('mobileServicesToggle');
+            const menu = document.getElementById('mobileServicesMenu');
+            if (toggle) toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                menu.classList.toggle('hidden');
+                toggle.classList.toggle('open');
+            });
+
+            // GSAP animations
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+            // header slide down on load
+            gsap.from('header', { y: -100, opacity: 0, duration: 0.8, ease: 'power2' });
+
+            // hero reveal
+            gsap.from('.reveal-headline', { y: 60, opacity: 0, duration: 1, delay: 0.2 });
+            gsap.from('.reveal-subhead', { y: 40, opacity: 0, duration: 1, delay: 0.4 });
+            gsap.from('.reveal-buttons a', { y: 30, opacity: 0, duration: 0.8, stagger: 0.2, delay: 0.6 });
+
+            // about fade in (scroll)
+            gsap.from('#about .about-image', { scrollTrigger: '#about', x: -80, opacity: 0, duration: 1 });
+            gsap.from('#about .about-text', { scrollTrigger: '#about', x: 80, opacity: 0, duration: 1, delay: 0.2 });
+
+            // industries cards fade
+            gsap.from('#industries .card-hover', { scrollTrigger: '#industries', scale: 0.8, opacity: 0, stagger: 0.15, duration: 0.8 });
+
+            // service cards scroll
+            gsap.from('#services .card-hover', { scrollTrigger: '#services', y: 50, opacity: 0, stagger: 0.25, duration: 0.9 });
+
+            // process steps timeline
+            gsap.from('.process-timeline .step', { scrollTrigger: '#process', y: 40, opacity: 0, stagger: 0.1, duration: 0.8 });
+
+            // counters with GSAP (simple)
+            const counters = document.querySelectorAll('.counter-number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target')) || 30;
+                ScrollTrigger.create({
+                    trigger: counter,
+                    start: 'top 85%',
+                    onEnter: () => {
+                        let val = 0;
+                        gsap.to(counter, {
+                            innerHTML: target,
+                            duration: 2,
+                            snap: { innerHTML: 1 },
+                            onUpdate: function() {
+                                counter.innerHTML = Math.floor(Number(counter.innerHTML));
+                            }
+                        });
+                    },
+                    once: true
+                });
+            });
+
+            // dropdown arrow (desktop) minor animation: none needed
+            // parallax effect: subtle via scrolltrigger on hero (optional)
+            gsap.to('#home', {
+                scrollTrigger: {
+                    trigger: '#home',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                },
+                backgroundPositionY: '30%',
+                ease: 'none'
+            });
+
+            // smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const id = link.getAttribute('href');
+                    if(id === '#') return;
+                    const target = document.querySelector(id);
+                    if(target) gsap.to(window, { scrollTo: target, duration: 1 });
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

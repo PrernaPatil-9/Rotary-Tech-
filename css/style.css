@@ -1,0 +1,331 @@
+/* style.css - ROTARY TECH Custom Styles */
+
+/* ==================== CSS VARIABLES ==================== */
+:root {
+    --dark-blue: #0B1F3A;
+    --steel-grey: #2F3E46;
+    --industrial-orange: #F77F00;
+    --white: #FFFFFF;
+    --light-gray: #F3F4F6;
+    --transition-smooth: all 0.3s ease;
+}
+
+/* ==================== BASE STYLES ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--steel-grey);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* ==================== CUSTOM UTILITY CLASSES ==================== */
+.bg-dark-blue {
+    background-color: var(--dark-blue);
+}
+
+.bg-steel-grey {
+    background-color: var(--steel-grey);
+}
+
+.bg-industrial-orange {
+    background-color: var(--industrial-orange);
+}
+
+.text-dark-blue {
+    color: var(--dark-blue);
+}
+
+.text-steel-grey {
+    color: var(--steel-grey);
+}
+
+.text-industrial-orange {
+    color: var(--industrial-orange);
+}
+
+.border-industrial-orange {
+    border-color: var(--industrial-orange);
+}
+
+.font-heading {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.font-body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* ==================== HEADER STYLES ==================== */
+#mainHeader {
+    transition: transform 0.3s ease;
+}
+
+.nav-link {
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--industrial-orange);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Mega Menu */
+.mega-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.group:hover .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.mega-menu ul li {
+    padding: 6px 0;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+/* Mobile Menu */
+.mobile-nav {
+    transition: transform 0.3s ease-in-out;
+}
+
+#mobileMenu {
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== HERO SECTION ==================== */
+.parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.hero-overlay {
+    background: linear-gradient(135deg, rgba(11, 31, 58, 0.95) 0%, rgba(11, 31, 58, 0.85) 100%);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+    40% {
+        transform: translateY(-10px) translateX(-50%);
+    }
+    60% {
+        transform: translateY(-5px) translateX(-50%);
+    }
+}
+
+/* ==================== INDUSTRY CARDS ==================== */
+.industry-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.industry-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.2);
+}
+
+.industry-card:hover .bg-industrial-orange {
+    background-color: var(--industrial-orange) !important;
+}
+
+/* ==================== SERVICE CARDS ==================== */
+.service-card {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -10px rgba(247, 127, 0, 0.3);
+}
+
+/* ==================== PROCESS TIMELINE ==================== */
+.process-step {
+    flex: 1;
+    max-width: 120px;
+}
+
+.process-step div:first-child {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.process-step:hover div:first-child {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(247, 127, 0, 0.3);
+}
+
+.process-progress {
+    transition: width 0.1s linear;
+}
+
+/* Mobile Timeline */
+.process-timeline-mobile > div {
+    transition: transform 0.3s ease;
+}
+
+.process-timeline-mobile > div:hover {
+    transform: translateX(10px);
+}
+
+/* ==================== FEATURE CARDS ==================== */
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ==================== FORM STYLES ==================== */
+input, textarea {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--industrial-orange);
+    box-shadow: 0 0 0 3px rgba(247, 127, 0, 0.2);
+}
+
+/* ==================== RESPONSIVE BREAKPOINTS ==================== */
+@media (max-width: 1024px) {
+    /* Tablet adjustments */
+    .mega-menu {
+        display: none !important;
+    }
+    
+    .group:hover .mega-menu {
+        display: none !important;
+    }
+    
+    .hero-headline {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile adjustments */
+    .hero-headline {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subheadline {
+        font-size: 1.2rem;
+    }
+    
+    .process-step {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .counter {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Small mobile */
+    .hero-headline {
+        font-size: 2rem;
+    }
+    
+    .hero-buttons a {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* ==================== LOADING ANIMATIONS ==================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+/* ==================== CUSTOM SCROLLBAR ==================== */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--industrial-orange);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #e06d00;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    #mainHeader,
+    .hero-buttons,
+    .scroll-indicator,
+    #contactForm,
+    footer {
+        display: none !important;
+    }
+}
