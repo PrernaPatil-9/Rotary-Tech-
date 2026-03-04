@@ -10,1045 +10,1012 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
   
   <style>
     :root {
-      --dark: #0a1421;
-      --darker: #050b14;
-      --orange: #ff6b00;
-      --orange-dark: #e55c00;
-      --gray: #a0aec0;
+      --oxford-blue: #0a192f;
+      --steel-blue: #2a5c7a;       /* richer, deeper blue */
+      --warm-silver: #b0c0d0;
+      --accent-gold: #d4af37;       /* subtle premium accent */
+      --bg-light: #f5f9ff;
+      --card-glow: rgba(42, 92, 122, 0.2);
     }
-    body { 
-      font-family: 'Inter', system-ui, sans-serif; 
-      background: var(--dark);
-      color: white;
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-light);
+      color: #1e293b;
+      overflow-x: hidden;
     }
     .display-font { font-family: 'Playfair Display', serif; }
-    .text-orange { color: var(--orange); }
-    .bg-orange { background-color: var(--orange); }
-    .hover\:bg-orange-dark:hover { background-color: var(--orange-dark); }
-    .border-orange { border-color: var(--orange); }
-    
+
+    /* modern gradients & effects */
+    .hero-glow {
+      background: radial-gradient(circle at 30% 50%, rgba(42,92,122,0.25) 0%, transparent 50%),
+                  linear-gradient(125deg, rgba(10,25,47,0.92) 0%, rgba(20,55,90,0.75) 100%);
+    }
     .section-gradient {
-      background: linear-gradient(to bottom, rgba(10,20,33,0.4), rgba(5,11,20,0.8));
+      background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
     }
-    
-    .card {
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: all 0.4s ease;
-    }
-    .card:hover {
-      transform: translateY(-12px);
-      border-color: var(--orange);
-      box-shadow: 0 25px 50px -12px rgba(255,107,0,0.25);
-    }
-
-    /* Ensure dropdown columns don't overflow and text remains readable */
-    @media (max-width: 1024px) {
-      .group .absolute { display: none; }
-    }
-    
-    .group:hover .group-hover\:visible {
-      visibility: visible;
-    }
-    .group:hover .group-hover\:opacity-100 {
-      opacity: 1;
-    }
-    
-    #mobileChevron {
-      transition: transform 0.3s ease;
-    }
-    
-    #mobileMenu {
-      background: rgba(10, 20, 33, 0.98);
+    .card-modern {
+      background: rgba(255,255,255,0.85);
       backdrop-filter: blur(8px);
-      max-height: calc(100vh - 80px);
-      overflow-y: auto;
+      border: 1px solid rgba(42,92,122,0.15);
+      border-radius: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 15px 35px -10px rgba(0,30,50,0.15);
     }
-    
-    #menuBtn {
-      font-size: 2.5rem;
-      line-height: 1;
+    .card-modern:hover {
+      transform: translateY(-12px) scale(1.02);
+      border-color: var(--steel-blue);
+      box-shadow: 0 30px 45px -15px var(--card-glow);
+    }
+    .btn-primary {
+      background: linear-gradient(145deg, #0a192f, #1b3b5c);
+      color: white;
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 8px 18px -6px rgba(10,25,47,0.4);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(145deg, #123150, #1f4a70);
+      transform: scale(1.03);
+      box-shadow: 0 15px 25px -8px #0a192f;
+    }
+    .btn-outline-modern {
+      border: 2px solid var(--steel-blue);
+      background: transparent;
+      color: var(--steel-blue);
+      transition: all 0.3s;
+    }
+    .btn-outline-modern:hover {
+      background: var(--steel-blue);
+      color: white;
+      box-shadow: 0 8px 18px -6px var(--steel-blue);
     }
 
-    /* Service Cards Styling */
-    .service-card {
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: all 0.4s ease;
-      scroll-margin-top: 120px;
+    /* floating orbs (soft) */
+    .floating-orb {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle at 30% 30%, rgba(100,160,210,0.25), transparent 70%);
+      border-radius: 50%;
+      filter: blur(50px);
+      z-index: 0;
+      pointer-events: none;
     }
-    
+
+    /* service card active pulse */
+    .service-card {
+      background: white;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(42,92,122,0.15);
+      transition: all 0.3s ease;
+      overflow: hidden;
+      box-shadow: 0 10px 30px -12px rgba(0,0,0,0.1);
+    }
     .service-card:hover {
       transform: translateY(-8px);
-      border-color: var(--orange);
-      box-shadow: 0 25px 50px -12px rgba(255,107,0,0.25);
+      border-color: var(--steel-blue);
+      box-shadow: 0 30px 40px -15px var(--card-glow);
     }
-
-    .category-services {
-      display: none;
-    }
-
-    .category-services.active {
-      display: block;
-    }
-
-    @keyframes highlightPulse {
-      0% { box-shadow: 0 0 0 0 var(--orange); }
-      50% { box-shadow: 0 0 0 8px rgba(255,107,0,0.3); }
-      100% { box-shadow: 0 0 0 0 var(--orange); }
-    }
-
     .service-card.highlight-pulse {
-      animation: highlightPulse 1s ease;
-      border-color: var(--orange) !important;
+      animation: highlightPulse 1.5s ease;
+      border-color: var(--accent-gold) !important;
+      box-shadow: 0 0 0 4px rgba(212,175,55,0.4);
+    }
+    @keyframes highlightPulse {
+      0% { box-shadow: 0 0 0 0 rgba(212,175,55,0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(212,175,55,0); }
+      100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); }
     }
 
     .category-filter-btn {
-      transition: all 0.3s ease;
+      background: white;
+      color: #1e293b;
+      border: 1px solid rgba(42,92,122,0.3);
+      transition: all 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
     }
-
-    .category-filter-btn:hover {
-      transform: translateY(-2px);
-    }
-
     .category-filter-btn.active {
-      background-color: var(--orange) !important;
+      background: var(--oxford-blue) !important;
       color: white !important;
-      box-shadow: 0 4px 15px rgba(255,107,0,0.3) !important;
+      border-color: var(--oxford-blue);
+      box-shadow: 0 10px 20px -8px var(--oxford-blue);
     }
 
-    /* Animation for floating orbs */
-  @keyframes pulse {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.1); }
+   #back-to-top {
+    background-color: #0a192f !important;
   }
-  
-  .animate-pulse {
-    animation: pulse 4s ease-in-out infinite;
+  #back-to-top:hover {
+    background-color: #1e3347 !important;
   }
-  
-  .delay-1000 {
-    animation-delay: 1s;
-  }
-  
-  /* Card hover effects */
-  .group:hover .group-hover\:scale-x-100 {
-    transform: scaleX(1);
-  }
-  
-  /* Gradient text support */
-  .display-font {
-    font-family: 'Playfair Display', serif;
-  }
-  
-  /* Smooth transitions */
-  .group .absolute {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  /* Stats cards hover */
-  .stats-card {
-    transition: all 0.3s ease;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .grid-cols-2 {
-      gap: 1rem;
+    .whatsapp-pulse {
+      animation: pulse 2s infinite;
     }
-    
-    .group .absolute {
-      padding: 1rem;
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.7); } 70% { box-shadow: 0 0 0 15px rgba(37,211,102,0); } }
+
+    /* mobile menu */
+    #mobileMenu {
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(42,92,122,0.2);
     }
-    
-    .group .text-3xl {
-      font-size: 1.5rem;
-    }
-  }
 
-   /* Pulse animation for WhatsApp button */
-  @keyframes whatsapp-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-    70% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-  }
+    /* Live color changing gradient animation - blue, light blue, grey palette */
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 50%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient-x {
+  animation: gradient-x 16s ease infinite;
+}
 
-  .bg-\[\#25D366\] {
-    animation: whatsapp-pulse 2s infinite;
-  }
+@keyframes gradient-y {
+  0% { background-position: 50% 0%; }
+  25% { background-position: 50% 50%; }
+  50% { background-position: 50% 100%; }
+  75% { background-position: 50% 50%; }
+  100% { background-position: 50% 0%; }
+}
+.animate-gradient-y {
+  animation: gradient-y 20s ease infinite;
+}
 
-  /* Back to top visibility */
-  #back-to-top.visible {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
+/* Floating orb animations */
+@keyframes pulse-slow {
+  0%, 100% { transform: scale(1); opacity: 0.25; }
+  50% { transform: scale(1.15); opacity: 0.35; }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 10s ease-in-out infinite;
+}
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+.animation-delay-6000 {
+  animation-delay: 6s;
+}
 
-  @media (max-width: 640px) {
-    .left-6 { left: 1rem; }
-    .right-6 { right: 1rem; }
-    .h-14, .w-14 { height: 3.25rem; width: 3.25rem; }
-    .h-7, .w-7 { height: 1.75rem; width: 1.75rem; }
-    /* Hide tooltip on mobile */
-    .group:hover span { display: none; }
+/* Category filter button active state - original colors preserved */
+.category-filter-btn.active {
+  background-color: #0a192f !important;
+  color: white !important;
+  box-shadow: 0 8px 20px -8px rgba(10,25,47,0.3) !important;
+  border-color: transparent !important;
+}
+
+/* Service card styles - original with subtle enhancements */
+.service-card {
+  background: white;
+  border: 1px solid rgba(42, 92, 122, 0.15);
+  transition: all 0.3s ease;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
+}
+.service-card:hover {
+  transform: translateY(-8px);
+  border-color: #2a5c7a;
+  box-shadow: 0 30px 40px -15px rgba(42,92,122,0.3);
+}
+
+/* Pulse animation for active cards */
+.service-card.highlight-pulse {
+  animation: highlightPulse 1.5s ease;
+  border-color: #2a5c7a !important;
+}
+@keyframes highlightPulse {
+  0% { box-shadow: 0 0 0 0 #2a5c7a; }
+  50% { box-shadow: 0 0 0 15px rgba(42,92,122,0.2); }
+  100% { box-shadow: 0 0 0 0 #2a5c7a; }
+}
+
+/* Card image zoom enhancement */
+.service-card .h-48 {
+  overflow: hidden;
+}
+.service-card img {
+  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+.service-card:hover img {
+  transform: scale(1.1);
+}
+
+/* contact */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin 20s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+.animate-float-slow {
+  animation: float 12s ease-in-out infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 5s ease-in-out infinite;
+}
+
+/* back to top */
+/* Bouncy appearance animation */
+#back-to-top {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: transparent !important;
+}
+
+/* Continuous bouncy wrench animation */
+@keyframes bounceWrenchContinuous {
+  0% { 
+    transform: rotate(0deg) scale(1); 
   }
+  10% { 
+    transform: rotate(-10deg) scale(1.15); 
+  }
+  20% { 
+    transform: rotate(8deg) scale(1.1); 
+  }
+  30% { 
+    transform: rotate(-5deg) scale(1.05); 
+  }
+  40% { 
+    transform: rotate(3deg) scale(1.02); 
+  }
+  50% { 
+    transform: rotate(0deg) scale(1); 
+  }
+  60% { 
+    transform: rotate(-8deg) scale(1.1); 
+  }
+  70% { 
+    transform: rotate(6deg) scale(1.08); 
+  }
+  80% { 
+    transform: rotate(-3deg) scale(1.03); 
+  }
+  90% { 
+    transform: rotate(2deg) scale(1.01); 
+  }
+  100% { 
+    transform: rotate(0deg) scale(1); 
+  }
+}
+
+.animate-bounce-wrench-continuous {
+  animation: bounceWrenchContinuous 2.5s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+}
+
+/* Even stronger bounce on hover */
+#back-to-top:hover span {
+  animation: bounceWrenchContinuous 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite !important;
+  filter: drop-shadow(0 12px 16px rgba(10, 25, 47, 0.35));
+}
+
+/* Remove any background or border */
+#back-to-top,
+#back-to-top:hover,
+#back-to-top:focus,
+#back-to-top:active {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Drop shadow for depth */
+#back-to-top span {
+  filter: drop-shadow(0 8px 12px rgba(10, 25, 47, 0.25));
+  transition: filter 0.3s ease;
+  display: inline-block;
+}
+
+/* Click effect */
+#back-to-top:active span {
+  animation: bounceWrenchContinuous 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite !important;
+  transform: scale(1.2);
+}
+
   </style>
 </head>
 <body class="antialiased">
 
-<header class="fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-black/70 to-transparent backdrop-blur-md transition-all duration-500">
-  <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-    <!-- Logo -->
-    <a href="#home" class="text-3xl font-extrabold display-font tracking-tight">
-      ROTARY <span class="text-orange">TECH</span>
+<!-- floating bg orbs (soft) -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+  <div class="floating-orb top-20 left-10 animate-pulse"></div>
+  <div class="floating-orb bottom-20 right-10 bg-blue-200/20" style="width:300px;height:300px; filter:blur(70px);"></div>
+</div>
+
+<!-- Header – logo now ENORMOUS (h-40), header height fixed with extreme negative margin -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-[#e2e8f0] shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between" style="height: 80px;"> <!-- Fixed header height -->
+    <a href="#home" class="flex items-center -my-24"> <!-- Massive negative margin to pull logo up/down while keeping header height -->
+      <img 
+        src="assets/RT_Logo-removebg-preview.png" 
+        alt="Rotary Tech Logo" 
+        class="h-40 w-auto drop-shadow-2xl object-contain"  
+      >
     </a>
 
-    <!-- Desktop Navigation + Dropdown -->
-    <nav class="hidden lg:flex items-center gap-8 font-medium">
-      <a href="#home" class="hover:text-orange transition py-2">Home</a>
-      <a href="#about" class="hover:text-orange transition py-2">About</a>
-
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-8 font-medium text-[#1e293b]">
+      <a href="#home" class="hover:text-[#2a5c7a] transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#2a5c7a] after:transition-all hover:after:w-full">Home</a>
+      <a href="#about" class="hover:text-[#2a5c7a] transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#2a5c7a] after:transition-all hover:after:w-full">About</a>
+      
       <!-- SERVICES DROPDOWN (desktop) -->
       <div class="relative group" id="services-dropdown">
-        <button class="flex items-center gap-1 hover:text-orange transition py-2 focus:outline-none">
+        <button class="flex items-center gap-1 hover:text-[#2a5c7a] transition py-2 focus:outline-none">
           Services
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mt-0.5 group-hover:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
-
-        <!-- Mega dropdown panel (3 columns) -->
         <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[800px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-          <div class="bg-[#0f1a2b] border border-orange/30 rounded-2xl shadow-2xl p-6 grid grid-cols-3 gap-6 text-white">
-            <!-- Col 1: Repair/Refurbishment -->
+          <div class="bg-white/95 backdrop-blur-xl border border-[#2a5c7a]/30 rounded-2xl shadow-2xl p-6 grid grid-cols-3 gap-6">
             <div>
-              <h3 class="text-orange font-bold text-lg border-b border-orange/20 pb-2 mb-3">🔧 Repair/Refurbishment</h3>
+              <h3 class="text-[#0a192f] font-bold text-lg border-b border-[#2a5c7a]/20 pb-2 mb-3">🔧 Repair/Refurbishment</h3>
               <ul class="space-y-2 text-sm">
-                <li><a href="#service-pumps" class="service-link block hover:text-orange hover:pl-1 transition-all">Pumps</a></li>
-                <li><a href="#service-compressors" class="service-link block hover:text-orange hover:pl-1 transition-all">Compressors</a></li>
-                <li><a href="#service-diesel-generators" class="service-link block hover:text-orange hover:pl-1 transition-all">Diesel Generators</a></li>
-                <li><a href="#service-overhaul" class="service-link block hover:text-orange hover:pl-1 transition-all">Overhaul & upgrade services</a></li>
-                <li><a href="#service-advanced-tech" class="service-link block hover:text-orange hover:pl-1 transition-all">Advanced repair technologies</a></li>
+                <li><a href="#service-pumps" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Pumps</a></li>
+                <li><a href="#service-compressors" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Compressors</a></li>
+                <li><a href="#service-diesel-generators" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Diesel Generators</a></li>
+                <li><a href="#service-overhaul" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Overhaul & upgrade services</a></li>
+                <li><a href="#service-advanced-tech" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Advanced repair technologies</a></li>
               </ul>
             </div>
-
-            <!-- Col 2: Engineering Services -->
             <div>
-              <h3 class="text-orange font-bold text-lg border-b border-orange/20 pb-2 mb-3">⚙️ Engineering Services</h3>
+              <h3 class="text-[#0a192f] font-bold text-lg border-b border-[#2a5c7a]/20 pb-2 mb-3">⚙️ Engineering Services</h3>
               <ul class="space-y-2 text-sm">
-                <li><a href="#service-installation" class="service-link block hover:text-orange hover:pl-1 transition-all">Installation & Commissioning</a></li>
-                <li><a href="#service-emergency-spares" class="service-link block hover:text-orange hover:pl-1 transition-all">Fabrication of emergency spares</a></li>
-                <li><a href="#service-reverse-engineering" class="service-link block hover:text-orange hover:pl-1 transition-all">Reverse engineering</a></li>
+                <li><a href="#service-installation" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1">Installation & Commissioning</a></li>
+                <li><a href="#service-emergency-spares" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1">Fabrication of emergency spares</a></li>
+                <li><a href="#service-reverse-engineering" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1">Reverse engineering</a></li>
               </ul>
             </div>
-
-            <!-- Col 3: Skilled Manpower -->
             <div>
-              <h3 class="text-orange font-bold text-lg border-b border-orange/20 pb-2 mb-3">👥 Skilled Manpower</h3>
+              <h3 class="text-[#0a192f] font-bold text-lg border-b border-[#2a5c7a]/20 pb-2 mb-3">👥 Skilled Manpower</h3>
               <ul class="space-y-2 text-sm">
-                <li><a href="#service-onsite-support" class="service-link block hover:text-orange hover:pl-1 transition-all">Trained technicians (on-site/off-site)</a></li>
-                <li><a href="#service-maintenance" class="service-link block hover:text-orange hover:pl-1 transition-all">Equipment maintenance experts</a></li>
-                <li><a href="#service-troubleshooting" class="service-link block hover:text-orange hover:pl-1 transition-all">Troubleshooting & repair</a></li>
+                <li><a href="#service-onsite-support" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1">Trained technicians (on-site/off-site)</a></li>
+                <li><a href="#service-maintenance" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1">Equipment maintenance experts</a></li>
+                <li><a href="#service-troubleshooting" class="service-link block hover:text-[#2a5c7a] hover:translate-x-1">Troubleshooting & repair</a></li>
               </ul>
             </div>
           </div>
         </div>
       </div>
-
-      <a href="#industries" class="hover:text-orange transition py-2">Industries</a>
-      <a href="#contact" class="bg-orange px-7 py-3 rounded-full font-bold hover:bg-orange-dark transition shadow-lg shadow-orange/30">Get Quote</a>
+      <a href="#industries" class="hover:text-[#2a5c7a] transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#2a5c7a] after:transition-all hover:after:w-full">Industries</a>
+      <a href="#contact" class="btn-primary px-7 py-3 rounded-full font-bold shadow-lg hover:shadow-xl">Get Quote</a>
     </nav>
 
-    <!-- Mobile menu button (HAMBURGER) -->
-    <button id="menuBtn" class="lg:hidden text-4xl focus:outline-none text-white hover:text-orange transition">☰</button>
+    <!-- Mobile menu button -->
+    <button id="menuBtn" class="lg:hidden text-4xl focus:outline-none text-[#0a192f] hover:text-[#2a5c7a] transition">☰</button>
   </div>
 
-  <!-- Mobile Menu (hidden by default) -->
-  <div id="mobileMenu" class="hidden lg:hidden bg-[#0a1421] border-t border-orange/20">
+  <!-- Mobile Menu (unchanged) -->
+  <div id="mobileMenu" class="hidden lg:hidden">
     <nav class="flex flex-col px-8 py-6 text-lg font-medium">
-      <a href="#home" class="py-3 border-b border-gray-800/50 hover:text-orange transition">Home</a>
-      <a href="#about" class="py-3 border-b border-gray-800/50 hover:text-orange transition">About</a>
-
-      <!-- SERVICES ACCORDION (mobile) -->
-      <div class="py-3 border-b border-gray-800/50">
-        <button id="mobileServicesToggle" class="flex items-center justify-between w-full hover:text-orange focus:outline-none">
+      <a href="#home" class="py-3 border-b border-[#e2e8f0] hover:text-[#2a5c7a] transition">Home</a>
+      <a href="#about" class="py-3 border-b border-[#e2e8f0] hover:text-[#2a5c7a] transition">About</a>
+      <div class="py-3 border-b border-[#e2e8f0]">
+        <button id="mobileServicesToggle" class="flex items-center justify-between w-full hover:text-[#2a5c7a] focus:outline-none">
           <span>Services</span>
           <svg id="mobileChevron" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
-        <div id="mobileServicesPanel" class="hidden mt-3 pl-4 space-y-4">
-          <!-- Repair group -->
-          <div>
-            <h4 class="text-orange font-semibold text-base mb-2">🔧 Repair/Refurbishment</h4>
-            <ul class="space-y-2 text-sm ml-2">
-              <li><a href="#service-pumps" class="service-link block hover:text-orange transition">Pumps</a></li>
-              <li><a href="#service-compressors" class="service-link block hover:text-orange transition">Compressors</a></li>
-              <li><a href="#service-diesel-generators" class="service-link block hover:text-orange transition">Diesel Generators</a></li>
-              <li><a href="#service-overhaul" class="service-link block hover:text-orange transition">Overhaul & upgrade</a></li>
-              <li><a href="#service-advanced-tech" class="service-link block hover:text-orange transition">Advanced repair tech</a></li>
-            </ul>
-          </div>
-          <!-- Engineering group -->
-          <div>
-            <h4 class="text-orange font-semibold text-base mb-2">⚙️ Engineering Services</h4>
-            <ul class="space-y-2 text-sm ml-2">
-              <li><a href="#service-installation" class="service-link block hover:text-orange transition">Installation & Commissioning</a></li>
-              <li><a href="#service-emergency-spares" class="service-link block hover:text-orange transition">Fabrication of emergency spares</a></li>
-              <li><a href="#service-reverse-engineering" class="service-link block hover:text-orange transition">Reverse engineering</a></li>
-            </ul>
-          </div>
-          <!-- Manpower group -->
-          <div>
-            <h4 class="text-orange font-semibold text-base mb-2">👥 Skilled Manpower</h4>
-            <ul class="space-y-2 text-sm ml-2">
-              <li><a href="#service-onsite-support" class="service-link block hover:text-orange transition">Trained technicians (on/off site)</a></li>
-              <li><a href="#service-maintenance" class="service-link block hover:text-orange transition">Equipment maintenance</a></li>
-              <li><a href="#service-troubleshooting" class="service-link block hover:text-orange transition">Troubleshooting & repair</a></li>
-            </ul>
-          </div>
+        <div id="mobileServicesPanel" class="hidden mt-3 pl-4 space-y-3 text-sm">
+          <a href="#service-pumps" class="service-link block py-1">Pumps</a>
+          <a href="#service-compressors" class="service-link block py-1">Compressors</a>
+          <a href="#service-diesel-generators" class="service-link block py-1">Diesel Generators</a>
+          <a href="#service-installation" class="service-link block py-1">Installation</a>
+          <a href="#service-reverse-engineering" class="service-link block py-1">Reverse Engineering</a>
+          <a href="#service-onsite-support" class="service-link block py-1">On-site Support</a>
         </div>
       </div>
-
-      <a href="#industries" class="py-3 border-b border-gray-800/50 hover:text-orange transition">Industries</a>
-      <a href="#contact" class="mt-4 bg-orange text-center py-4 rounded-xl font-bold hover:bg-orange-dark transition">Get Quote</a>
+      <a href="#industries" class="py-3 border-b border-[#e2e8f0] hover:text-[#2a5c7a] transition">Industries</a>
+      <a href="#contact" class="mt-4 btn-primary text-center py-4 rounded-xl font-bold">Get Quote</a>
     </nav>
   </div>
 </header>
 
-<div class="h-24 lg:h-28"></div>
+<!-- Add a spacer div to prevent content from hiding under fixed header -->
+<div style="height: 80px;"></div>
 
-<!-- Hero -->
-<section id="home" class="relative min-h-screen flex items-center bg-cover bg-center" style="background-image: url('https://thumbs.dreamstime.com/b/dramatic-sunset-over-industrial-oil-refinery-complex-stunning-landscape-infrastructure-technology-witness-355453223.jpg');">
-  <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
-  <div class="relative z-10 max-w-6xl mx-auto px-6 text-center lg:text-left">
-    <h1 class="text-5xl md:text-7xl font-extrabold display-font leading-tight mb-6">
-      Rotary Equipment<br><span class="text-orange">Rebuilt for Reliability</span>
+<!-- Hero - dynamic gradient overlay with moving light -->
+<section id="home" class="relative min-h-screen flex items-center overflow-hidden" style="background-image: url('https://thumbs.dreamstime.com/b/dramatic-sunset-over-industrial-oil-refinery-complex-stunning-landscape-infrastructure-technology-witness-355453223.jpg'); background-size: cover; background-position: center;">
+  <div class="absolute inset-0 hero-glow"></div>
+  <div class="relative z-10 max-w-6xl mx-auto px-6 text-center lg:text-left py-16">
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold display-font leading-tight mb-6 text-white drop-shadow-lg" id="hero-title">
+      Rotary Equipment<br><span class="text-[#d4af37]">Rebuilt for Reliability</span>
     </h1>
-    <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mb-10">
-      Fast-response repair, precision refurbishment, reverse engineering & 24/7 skilled manpower for critical rotating assets.
+    <p class="text-xl md:text-2xl lg:text-3xl text-gray-100 max-w-3xl mb-10 leading-relaxed drop-shadow-md" id="hero-sub">
+      Fast-response repair, precision refurbishment, reverse engineering & 24/7 skilled manpower.
     </p>
     <div class="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
-      <a href="#contact" class="bg-orange px-10 py-5 rounded-xl font-bold text-lg hover:bg-orange-dark transition shadow-xl shadow-orange/40">Request Support</a>
-      <a href="#about" class="border-2 border-orange text-orange px-10 py-5 rounded-xl font-bold text-lg hover:bg-orange hover:text-white transition">Discover Our Expertise</a>
+      <a href="#contact" class="btn-primary px-10 py-5 md:px-12 md:py-6 rounded-xl font-bold text-lg md:text-xl shadow-xl bg-gradient-to-r from-[#0a192f] to-[#1f4a70] hover:scale-105">Request Support</a>
+      <a href="#about" class="btn-outline-modern px-10 py-5 md:px-12 md:py-6 rounded-xl font-bold text-lg md:text-xl border-2 border-white text-white hover:bg-white hover:text-[#0a192f] transition">Discover Our Expertise</a>
     </div>
   </div>
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7-7-7m14-6l-7 7-7-7"></path></svg></div>
 </section>
 
-<!-- About -->
-<section id="about" class="py-24 px-6 section-gradient">
-  <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-    <div>
-      <h2 class="text-5xl md:text-6xl font-extrabold display-font mb-8 leading-tight">
-        Zero Compromise.<br><span class="text-orange">Maximum Uptime.</span>
-      </h2>
-      <p class="text-lg text-gray-300 leading-relaxed mb-10">
-        With deep domain expertise in Oil & Gas, Petrochemical, Power and Fertilizer plants, we restore critical rotary equipment faster and more cost-effectively — minimizing production losses and extending asset life.
-      </p>
-      <div class="grid grid-cols-2 gap-8">
-        <div class="text-center"><div class="text-5xl font-bold text-orange">24/7</div><div class="text-gray-400 mt-2">Emergency Response</div></div>
-        <div class="text-center"><div class="text-5xl font-bold text-orange">15+</div><div class="text-gray-400 mt-2">Years Specialized Experience</div></div>
+<!-- About - fresh design with parallax -->
+<section id="about" class="py-28 px-6 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="space-y-6" id="about-text">
+        <h2 class="text-5xl md:text-6xl font-extrabold display-font leading-tight text-[#0a192f]"><span class="text-[#2a5c7a]">Zero Compromise.</span><br>Maximum Uptime.</h2>
+        <p class="text-lg text-[#334155] leading-relaxed">With deep domain expertise in Oil & Gas, Petrochemical, Power and Fertilizer plants, we restore critical rotary equipment faster and more cost-effectively — minimizing production losses and extending asset life.</p>
+        <div class="grid grid-cols-2 gap-8 pt-4"><div class="text-center p-5 bg-white/70 backdrop-blur-sm rounded-2xl shadow-sm border border-[#2a5c7a]/20"><div class="text-4xl font-bold text-[#0a192f]">24/7</div><div class="text-[#2a5c7a]">Emergency Response</div></div><div class="text-center p-5 bg-white/70 backdrop-blur-sm rounded-2xl border border-[#2a5c7a]/20"><div class="text-4xl font-bold text-[#0a192f]">15+</div><div class="text-[#2a5c7a]">Years Specialized</div></div></div>
       </div>
-    </div>
-    <div>
-      <img src="https://www.dxpe.com/wp-content/uploads/2025/07/pump-maintenance-and-repair-main.jpeg" alt="Industrial technician performing pump maintenance" class="rounded-2xl shadow-2xl shadow-black/50 object-cover w-full" loading="lazy">
-    </div>
-  </div>
-</section>
-
-<!-- Services -->
-<section id="services" class="py-24 px-6 section-gradient">
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl md:text-5xl font-extrabold display-font mb-4">Our <span class="text-orange">Services</span></h2>
-      <p class="text-xl text-gray-300">Click on a category to explore our services</p>
-    </div>
-
-    <!-- Category Filter Buttons -->
-    <div class="flex justify-center gap-4 mb-12 flex-wrap">
-      <button class="category-filter-btn px-8 py-3 rounded-full font-semibold transition-all bg-orange text-white shadow-lg active" data-category="rotary">
-        Rotary Equipment
-      </button>
-      <button class="category-filter-btn px-8 py-3 rounded-full font-semibold transition-all bg-white/10 text-white hover:bg-white/20" data-category="engineering">
-        Engineering Services
-      </button>
-      <button class="category-filter-btn px-8 py-3 rounded-full font-semibold transition-all bg-white/10 text-white hover:bg-white/20" data-category="manpower">
-        Skilled Manpower
-      </button>
-    </div>
-
-    <!-- Services Cards Container -->
-    <div class="services-container">
-      <!-- Rotary Equipment Cards -->
-      <div class="category-services active" id="rotary-services">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="service-card rounded-xl overflow-hidden" id="service-pumps">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Pump Repair" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Pump Repair & Refurbishment</h3>
-              <p class="text-gray-300 mb-4">Complete overhaul and repair services for all types of industrial pumps including centrifugal, diaphragm, and multistage pumps.</p>
-              <button onclick="redirectToWhatsApp('rotary', 'Pump Repair & Refurbishment')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-compressors">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Compressor Repair" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Compressor Services</h3>
-              <p class="text-gray-300 mb-4">Specialized repair and maintenance for rotary screw, centrifugal, and reciprocating compressors.</p>
-              <button onclick="redirectToWhatsApp('rotary', 'Compressor Services')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-diesel-generators">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Diesel Generator" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Diesel Generator Overhaul</h3>
-              <p class="text-gray-300 mb-4">Complete DG set repair, engine and alternator maintenance, load testing, and performance optimization.</p>
-              <button onclick="redirectToWhatsApp('rotary', 'Diesel Generator Overhaul')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-overhaul">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Overhaul Services" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Overhaul & Upgrade</h3>
-              <p class="text-gray-300 mb-4">Advanced technologies including laser alignment, vibration analysis, and performance enhancement coatings.</p>
-              <button onclick="redirectToWhatsApp('rotary', 'Overhaul & Upgrade')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-advanced-tech">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Advanced Technologies" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Advanced Repair Technologies</h3>
-              <p class="text-gray-300 mb-4">State-of-the-art repair techniques including laser cladding, thermal spraying, and precision machining.</p>
-              <button onclick="redirectToWhatsApp('rotary', 'Advanced Repair Technologies')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Engineering Services Cards -->
-      <div class="category-services hidden" id="engineering-services">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="service-card rounded-xl overflow-hidden" id="service-installation">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Installation" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Installation & Commissioning</h3>
-              <p class="text-gray-300 mb-4">Professional site preparation, alignment, and complete commissioning services for rotary equipment.</p>
-              <button onclick="redirectToWhatsApp('engineering', 'Installation & Commissioning')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-emergency-spares">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Emergency Spares" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Emergency Spares Fabrication</h3>
-              <p class="text-gray-300 mb-4">Rapid fabrication of critical spare parts using advanced CNC machining and manufacturing processes.</p>
-              <button onclick="redirectToWhatsApp('engineering', 'Emergency Spares Fabrication')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-reverse-engineering">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Reverse Engineering" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Reverse Engineering</h3>
-              <p class="text-gray-300 mb-4">Precise 3D scanning, CAD modeling, and dimensional replication for obsolete or unavailable parts.</p>
-              <button onclick="redirectToWhatsApp('engineering', 'Reverse Engineering')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Skilled Manpower Cards -->
-      <div class="category-services hidden" id="manpower-services">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="service-card rounded-xl overflow-hidden" id="service-onsite-support">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="On-site Support" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">On-site Technical Support</h3>
-              <p class="text-gray-300 mb-4">Trained technicians and engineers available for on-site maintenance, repair, and emergency support.</p>
-              <button onclick="redirectToWhatsApp('manpower', 'On-site Technical Support')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-offsite-support">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Off-site Support" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Off-site Engineering Support</h3>
-              <p class="text-gray-300 mb-4">Expert engineers for remote troubleshooting, technical guidance, and project consultation.</p>
-              <button onclick="redirectToWhatsApp('manpower', 'Off-site Engineering Support')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-maintenance">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Maintenance Expertise" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Equipment Maintenance Experts</h3>
-              <p class="text-gray-300 mb-4">Expertise in predictive maintenance, failure analysis, and regular equipment servicing.</p>
-              <button onclick="redirectToWhatsApp('manpower', 'Equipment Maintenance Experts')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-
-          <div class="service-card rounded-xl overflow-hidden" id="service-troubleshooting">
-            <div class="h-48 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" alt="Troubleshooting" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Troubleshooting & Repair</h3>
-              <p class="text-gray-300 mb-4">Advanced diagnostic tools and techniques for quick problem identification and resolution.</p>
-              <button onclick="redirectToWhatsApp('manpower', 'Troubleshooting & Repair')" class="inline-block bg-orange text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors contact-btn">Contact Us</button>
-            </div>
-          </div>
-        </div>
+      <div class="relative group" id="about-img">
+        <div class="absolute -inset-2 bg-gradient-to-r from-[#2a5c7a] to-[#d4af37] rounded-3xl blur-xl opacity-50 group-hover:opacity-80 transition"></div>
+        <img src="https://www.dxpe.com/wp-content/uploads/2025/07/pump-maintenance-and-repair-main.jpeg" alt="Industrial technician" class="rounded-2xl shadow-2xl relative w-full border-4 border-white">
       </div>
     </div>
   </div>
 </section>
 
-<!-- Industries Section - Redeveloped -->
-<section id="industries" class="py-24 px-6 relative overflow-hidden">
-  <!-- Animated Background -->
-  <div class="absolute inset-0 bg-gradient-to-br from-[#0a1421] via-[#0f1a2b] to-black"></div>
+<!-- Services - live color changing gradient with blue, light blue, grey palette -->
+<section id="services" class="pt-12 pb-28 px-6 relative overflow-hidden">
+  <!-- Live animated gradient background - blue, light blue, grey, silver, steel tones -->
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-100 via-sky-100 to-slate-200 animate-gradient-x" style="background-size: 400% 400%;"></div>
+  <div class="absolute inset-0 bg-gradient-to-tr from-slate-100 via-blue-50 to-gray-200 animate-gradient-y mix-blend-multiply opacity-60" style="background-size: 400% 400%;"></div>
   
-  <!-- Floating Orbs (Decorative) -->
-  <div class="absolute top-20 left-10 w-64 h-64 bg-orange/5 rounded-full blur-3xl animate-pulse"></div>
-  <div class="absolute bottom-20 right-10 w-80 h-80 bg-orange/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+  <!-- Floating gradient orbs in complementary tones -->
+  <div class="absolute top-20 left-20 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse-slow"></div>
+  <div class="absolute bottom-20 right-20 w-80 h-80 bg-sky-200/30 rounded-full blur-3xl animate-pulse-slow animation-delay-2000"></div>
+  <div class="absolute top-40 right-40 w-72 h-72 bg-slate-300/30 rounded-full blur-3xl animate-pulse-slow animation-delay-4000"></div>
+  <div class="absolute bottom-40 left-40 w-64 h-64 bg-gray-200/40 rounded-full blur-3xl animate-pulse-slow animation-delay-6000"></div>
+  
+  <!-- Subtle industrial pattern overlay -->
+  <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMTBhMjAgMjAgMCAwIDEgMCA0MCAyMCAyMCAwIDAgMSAwLTQweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmE1YzdhIiBzdHJva2Utd2lkdGg9IjAuNSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+'); background-repeat: repeat;"></div>
   
   <div class="max-w-7xl mx-auto relative z-10">
-    <!-- Section Header with Enhanced Design -->
-    <div class="text-center mb-16">
-      <span class="inline-block px-4 py-2 bg-orange/10 rounded-full text-orange font-semibold text-sm mb-4 border border-orange/30">INDUSTRIES WE SERVE</span>
-      <h2 class="text-5xl md:text-6xl font-extrabold display-font mb-6">
-        Powering <span class="text-orange">Critical</span> Sectors
-      </h2>
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-        Trusted by leading companies across heavy industries for rotary equipment excellence
-      </p>
+    <!-- Text colors unchanged - exactly as original -->
+    <div class="text-center mb-12">
+      <h2 class="text-5xl md:text-6xl font-extrabold display-font mb-4 text-[#0a192f]">Our <span class="text-[#2a5c7a]">Services</span></h2>
+      <p class="text-xl text-[#2a5c7a]">Click a category to explore</p>
+    </div>
+    
+    <!-- Category Filter Buttons - original colors preserved with subtle gradient borders -->
+    <div class="flex justify-center gap-4 mb-12 flex-wrap">
+      <button class="category-filter-btn px-8 py-3 rounded-full font-semibold transition-all bg-white text-[#1e293b] hover:bg-[#e2e8f0] active shadow-md" data-category="rotary">Rotary Equipment</button>
+      <button class="category-filter-btn px-8 py-3 rounded-full font-semibold transition-all bg-white text-[#1e293b] hover:bg-[#e2e8f0] shadow-md" data-category="engineering">Engineering Services</button>
+      <button class="category-filter-btn px-8 py-3 rounded-full font-semibold transition-all bg-white text-[#1e293b] hover:bg-[#e2e8f0] shadow-md" data-category="manpower">Skilled Manpower</button>
     </div>
 
-    <!-- Main Industry Cards Grid -->
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 mb-12">
-      <!-- Oil & Gas - Featured Card -->
-      <div class="group relative">
-        <div class="absolute inset-0 bg-gradient-to-r from-orange to-orange-dark rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md"></div>
-        <div class="relative bg-gradient-to-b from-[#1a2635] to-[#0f1a2b] rounded-2xl p-6 border border-gray-800 group-hover:border-orange/50 transition-all duration-500 transform group-hover:-translate-y-2">
-          <div class="text-6xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">🛢️</div>
-          <h3 class="text-xl font-bold mb-2">Oil & Gas</h3>
-          <p class="text-sm text-gray-400 mb-4">Upstream & Downstream</p>
-          <div class="w-12 h-1 bg-orange rounded-full mx-auto transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-          
-          <!-- Hover Stats -->
-          <div class="absolute inset-0 bg-[#0f1a2b]/95 backdrop-blur-sm rounded-2xl p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center text-center">
-            <div class="text-3xl font-bold text-orange mb-2">50+</div>
-            <div class="text-sm text-gray-300 mb-3">Projects Completed</div>
-            <div class="text-xs text-gray-400">Refineries • Platforms • Terminals</div>
-          </div>
+    <!-- Cards container - all original styles preserved with subtle backdrop blur -->
+    <div class="services-container">
+      <!-- Rotary Equipment -->
+      <div class="category-services active" id="rotary-services">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-pumps"><div class="h-48 overflow-hidden"><img src="assets/s1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f] mb-2">Pump Repair & Refurbishment</h3><p class="text-[#2a5c7a] mb-4">Complete overhaul and repair for all industrial pumps.</p><button onclick="redirectToWhatsApp('rotary','Pump Repair')" class="inline-block bg-[#0a192f] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#1e3347] transition shadow-md">Contact Us</button></div></div>
+          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-compressors"><div class="h-48 overflow-hidden"><img src="assets/s2.jpg" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Compressor Services</h3><p class="text-[#2a5c7a] mb-4">Rotary screw, centrifugal compressors.</p><button onclick="redirectToWhatsApp('rotary','Compressor Services')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div>
+          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-diesel-generators"><div class="h-48 overflow-hidden"><img src="assets/s3.jpg" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Diesel Generator Overhaul</h3><p class="text-[#2a5c7a] mb-4">Complete DG set repair, load testing.</p><button onclick="redirectToWhatsApp('rotary','DG Overhaul')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div>
+          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-overhaul"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Overhaul & Upgrade</h3><p class="text-[#2a5c7a] mb-4">Laser alignment, vibration analysis.</p><button onclick="redirectToWhatsApp('rotary','Overhaul & Upgrade')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div>
+          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-advanced-tech"><div class="h-48 overflow-hidden"><img src="assets/s5.png" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Advanced Repair Technologies</h3><p class="text-[#2a5c7a] mb-4">Laser cladding, thermal spraying.</p><button onclick="redirectToWhatsApp('rotary','Advanced Repair')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div>
         </div>
       </div>
-
-      <!-- Petrochemical -->
-      <div class="group relative">
-        <div class="relative bg-gradient-to-b from-[#1a2635] to-[#0f1a2b] rounded-2xl p-6 border border-gray-800 group-hover:border-orange/50 transition-all duration-500 transform group-hover:-translate-y-2">
-          <div class="text-6xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">🧪</div>
-          <h3 class="text-xl font-bold mb-2">Petrochemical</h3>
-          <p class="text-sm text-gray-400 mb-4">Processing Plants</p>
-          <div class="w-12 h-1 bg-orange rounded-full mx-auto transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-          
-          <div class="absolute inset-0 bg-[#0f1a2b]/95 backdrop-blur-sm rounded-2xl p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center text-center">
-            <div class="text-3xl font-bold text-orange mb-2">35+</div>
-            <div class="text-sm text-gray-300 mb-3">Plants Served</div>
-            <div class="text-xs text-gray-400">Cracking • Polymer • Fertilizer</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Power Plants -->
-      <div class="group relative">
-        <div class="relative bg-gradient-to-b from-[#1a2635] to-[#0f1a2b] rounded-2xl p-6 border border-gray-800 group-hover:border-orange/50 transition-all duration-500 transform group-hover:-translate-y-2">
-          <div class="text-6xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">⚡</div>
-          <h3 class="text-xl font-bold mb-2">Power Plants</h3>
-          <p class="text-sm text-gray-400 mb-4">Thermal & Nuclear</p>
-          <div class="w-12 h-1 bg-orange rounded-full mx-auto transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-          
-          <div class="absolute inset-0 bg-[#0f1a2b]/95 backdrop-blur-sm rounded-2xl p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center text-center">
-            <div class="text-3xl font-bold text-orange mb-2">2.5GW+</div>
-            <div class="text-sm text-gray-300 mb-3">Turbine Capacity</div>
-            <div class="text-xs text-gray-400">Steam • Gas • Hydro</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Fertilizer -->
-      <div class="group relative">
-        <div class="relative bg-gradient-to-b from-[#1a2635] to-[#0f1a2b] rounded-2xl p-6 border border-gray-800 group-hover:border-orange/50 transition-all duration-500 transform group-hover:-translate-y-2">
-          <div class="text-6xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">🌾</div>
-          <h3 class="text-xl font-bold mb-2">Fertilizer</h3>
-          <p class="text-sm text-gray-400 mb-4">Production Units</p>
-          <div class="w-12 h-1 bg-orange rounded-full mx-auto transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-          
-          <div class="absolute inset-0 bg-[#0f1a2b]/95 backdrop-blur-sm rounded-2xl p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center text-center">
-            <div class="text-3xl font-bold text-orange mb-2">15+</div>
-            <div class="text-sm text-gray-300 mb-3">Fertilizer Plants</div>
-            <div class="text-xs text-gray-400">Urea • Ammonia • NPK</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Heavy Industry -->
-      <div class="group relative">
-        <div class="relative bg-gradient-to-b from-[#1a2635] to-[#0f1a2b] rounded-2xl p-6 border border-gray-800 group-hover:border-orange/50 transition-all duration-500 transform group-hover:-translate-y-2">
-          <div class="text-6xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">🏭</div>
-          <h3 class="text-xl font-bold mb-2">Heavy Industry</h3>
-          <p class="text-sm text-gray-400 mb-4">Manufacturing</p>
-          <div class="w-12 h-1 bg-orange rounded-full mx-auto transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-          
-          <div class="absolute inset-0 bg-[#0f1a2b]/95 backdrop-blur-sm rounded-2xl p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center text-center">
-            <div class="text-3xl font-bold text-orange mb-2">100+</div>
-            <div class="text-sm text-gray-300 mb-3">Industrial Clients</div>
-            <div class="text-xs text-gray-400">Steel • Cement • Mining</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stats Bar -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-800 hover:border-orange/30 transition-all duration-300">
-        <div class="text-3xl font-bold text-orange mb-2">150+</div>
-        <div class="text-sm text-gray-400">Industrial Clients</div>
-      </div>
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-800 hover:border-orange/30 transition-all duration-300">
-        <div class="text-3xl font-bold text-orange mb-2">500+</div>
-        <div class="text-sm text-gray-400">Projects Delivered</div>
-      </div>
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-800 hover:border-orange/30 transition-all duration-300">
-        <div class="text-3xl font-bold text-orange mb-2">24/7</div>
-        <div class="text-sm text-gray-400">Emergency Support</div>
-      </div>
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-800 hover:border-orange/30 transition-all duration-300">
-        <div class="text-3xl font-bold text-orange mb-2">15+</div>
-        <div class="text-sm text-gray-400">Years Experience</div>
-      </div>
+      <!-- Engineering Services Cards -->
+      <div class="category-services hidden" id="engineering-services"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"><div class="service-card bg-white/95 backdrop-blur-sm" id="service-installation"><div class="h-48 overflow-hidden"><img src="assets/s6.webp"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Installation & Commissioning</h3><p class="text-[#2a5c7a] mb-4">Site prep, alignment, commissioning.</p><button onclick="redirectToWhatsApp('engineering','Installation')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-emergency-spares"><div class="h-48 overflow-hidden"><img src="assets/s7.webp"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Emergency Spares Fabrication</h3><p class="text-[#2a5c7a] mb-4">Rapid CNC fabrication.</p><button onclick="redirectToWhatsApp('engineering','Emergency Spares')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-reverse-engineering"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Reverse Engineering</h3><p class="text-[#2a5c7a] mb-4">3D scanning, CAD for obsolete parts.</p><button onclick="redirectToWhatsApp('engineering','Reverse Engineering')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div></div></div>
+      <!-- Manpower Cards -->
+      <div class="category-services hidden" id="manpower-services"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"><div class="service-card bg-white/95 backdrop-blur-sm" id="service-onsite-support"><div class="h-48 overflow-hidden"><img src="assets/s9.jfif"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">On-site Technical Support</h3><p class="text-[#2a5c7a] mb-4">Trained technicians emergency support.</p><button onclick="redirectToWhatsApp('manpower','On-site Support')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-offsite-support"><div class="h-48 overflow-hidden"><img src="assets/s10.jpg"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Off-site Engineering Support</h3><p class="text-[#2a5c7a] mb-4">Remote troubleshooting.</p><button onclick="redirectToWhatsApp('manpower','Off-site Support')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-maintenance"><div class="h-48 overflow-hidden"><img src="assets/s11.jpg"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Equipment Maintenance Experts</h3><p class="text-[#2a5c7a] mb-4">Predictive maintenance.</p><button onclick="redirectToWhatsApp('manpower','Maintenance Experts')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- Contact Section - Redesigned -->
-<section id="contact" class="relative py-24 px-6 bg-gradient-to-br from-dark via-darker to-black overflow-hidden"> 
-  <!-- Background Pattern -->
-  <div class="absolute inset-0 opacity-10">
-    <div class="absolute top-0 left-0 w-64 h-64 bg-orange rounded-full filter blur-3xl"></div>
-    <div class="absolute bottom-0 right-0 w-96 h-96 bg-orange/30 rounded-full filter blur-3xl"></div>
-  </div>
+<!-- Industries - Industrial Theme Compact -->
+<section id="industries" class="py-16 px-6 relative overflow-hidden" style="background: linear-gradient(145deg, #0f172a 0%, #1a2538 100%);">
+  <!-- Industrial pattern overlay - subtle -->
+  <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(45deg, #4f6f8f 0px, #4f6f8f 1px, transparent 1px, transparent 8px);"></div>
   
-  <div class="relative max-w-6xl mx-auto">
-    <!-- Header with emergency badge -->
-    <div class="text-center mb-16">
-      <div class="inline-flex items-center gap-2 bg-orange/20 text-orange px-4 py-2 rounded-full mb-6">
-        <span class="relative flex h-3 w-3">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-3 w-3 bg-orange"></span>
-        </span>
-        <span class="text-sm font-semibold uppercase tracking-wider">24/7 Emergency Response</span>
+  <div class="max-w-6xl mx-auto relative z-10">
+    <!-- Section header - compact -->
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 bg-[#1e2a3a] px-4 py-1.5 rounded-full border border-[#4f6f8f]/30 mb-3">
+        <span class="w-1.5 h-1.5 bg-[#d4af37] rounded-full animate-pulse"></span>
+        <span class="text-xs font-semibold text-[#b0c0d0] tracking-wider">HEAVY INDUSTRY</span>
       </div>
-      
-      <h2 class="text-5xl lg:text-6xl font-black display-font mb-6">
-        <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Critical Equipment Down?</span>
-        <br>
-        <span class="text-orange">We Respond Fast</span>
-      </h2>
-      
-      <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-        Immediate diagnostics, emergency spares, and on-site crew dispatch. 
-        <span class="block text-orange font-semibold mt-2">Your downtime stops here.</span>
-      </p>
+      <h2 class="text-3xl md:text-4xl font-bold display-font mb-2 text-white">Engineered for <span class="text-[#d4af37]">heavy duty</span></h2>
+      <p class="text-sm text-[#a0b8cc] max-w-xl mx-auto">From black gold to green fields — our rotary expertise keeps assets turning.</p>
     </div>
-
-    <!-- Main Content Grid -->
-    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
-      <!-- Contact Info & Form Card -->
-      <div class="space-y-8">
-        <!-- Contact Information Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="group bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-gray-800 hover:border-orange/50 transition-all duration-300">
-            <div class="text-orange mb-3 text-3xl">📍</div>
-            <h3 class="font-bold text-white mb-1">Location</h3>
-            <p class="text-gray-400 text-sm leading-relaxed">Bhiwandi, Thane<br>Maharashtra</p>
+    
+    <!-- Main grid - compact -->
+    <div class="grid lg:grid-cols-2 gap-5 items-start">
+      <!-- Left column -->
+      <div class="space-y-4">
+        <!-- Trusted panel -->
+        <div class="bg-[#1e2a3a]/90 backdrop-blur-sm rounded-xl p-5 border border-[#4f6f8f]/30 shadow-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl text-[#d4af37]">⚙️</span>
+            <h3 class="text-lg font-bold text-white">Trusted by the <span class="text-[#d4af37]">toughest</span></h3>
           </div>
+          <p class="text-xs text-[#b0c0d0] leading-relaxed mb-3">Our crews operate in offshore platforms, desert refineries & arctic stations.</p>
           
-          <div class="group bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-gray-800 hover:border-orange/50 transition-all duration-300">
-            <div class="text-orange mb-3 text-3xl">📞</div>
-            <h3 class="font-bold text-white mb-1">Emergency</h3>
-            <a href="tel:+917021649368" class="text-gray-400 hover:text-orange text-sm font-mono block transition-colors">+91 70216 49368</a>
-          </div>
-          
-          <div class="group bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-gray-800 hover:border-orange/50 transition-all duration-300">
-            <div class="text-orange mb-3 text-3xl">📧</div>
-            <h3 class="font-bold text-white mb-1">Email</h3>
-            <a href="mailto:rotarytech.ind@gmail.com" class="text-gray-400 hover:text-orange text-sm break-all transition-colors">rotarytech.ind@gmail.com</a>
+          <!-- Stats grid - compact -->
+          <div class="grid grid-cols-2 gap-2">
+            <div class="flex items-center gap-2 bg-[#0f1a24] rounded-lg p-2 border border-[#4f6f8f]/30">
+              <span class="text-xl">🛢️</span>
+              <div><span class="font-bold text-base text-white">50+</span> <span class="text-[10px] text-[#a0b8cc] block">oil projects</span></div>
+            </div>
+            <div class="flex items-center gap-2 bg-[#0f1a24] rounded-lg p-2 border border-[#4f6f8f]/30">
+              <span class="text-xl">⚡</span>
+              <div><span class="font-bold text-base text-white">2.5GW</span> <span class="text-[10px] text-[#a0b8cc] block">turbine</span></div>
+            </div>
+            <div class="flex items-center gap-2 bg-[#0f1a24] rounded-lg p-2 border border-[#4f6f8f]/30">
+              <span class="text-xl">🌾</span>
+              <div><span class="font-bold text-base text-white">15+</span> <span class="text-[10px] text-[#a0b8cc] block">fertilizer</span></div>
+            </div>
+            <div class="flex items-center gap-2 bg-[#0f1a24] rounded-lg p-2 border border-[#4f6f8f]/30">
+              <span class="text-xl">🏭</span>
+              <div><span class="font-bold text-base text-white">100+</span> <span class="text-[10px] text-[#a0b8cc] block">clients</span></div>
+            </div>
           </div>
         </div>
-
-        <!-- Enhanced Form -->
-        <div class="bg-white/5 backdrop-blur-sm p-8 rounded-3xl border border-gray-800 shadow-2xl">
-          <h3 class="text-2xl font-bold text-white mb-6">Send Urgent Inquiry</h3>
-          <form class="space-y-5">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <input type="text" placeholder="Full Name" class="w-full p-4 rounded-xl bg-black/40 border border-gray-700 focus:border-orange outline-none transition-colors text-white placeholder-gray-500" required>
-              <input type="email" placeholder="Email Address" class="w-full p-4 rounded-xl bg-black/40 border border-gray-700 focus:border-orange outline-none transition-colors text-white placeholder-gray-500" required>
+        
+        <!-- Testimonial - compact -->
+        <div class="relative bg-[#1a2535] rounded-xl p-4 text-white border border-[#4f6f8f]/30">
+          <p class="text-xs italic text-[#e0e8f0]">“ROTARY TECH had our compressor back online in 24 hours. Unmatched expertise.”</p>
+          <div class="flex items-center gap-2 mt-2">
+            <div class="w-6 h-6 rounded-full bg-[#d4af37] flex items-center justify-center text-xs font-bold text-[#0a192f]">VK</div>
+            <div>
+              <p class="text-xs font-semibold text-white">Vikram Kulkarni</p>
+              <p class="text-[9px] text-[#a0b8cc]">Maintenance Director, IndianOil</p>
             </div>
-            <input type="tel" placeholder="Phone Number (optional)" class="w-full p-4 rounded-xl bg-black/40 border border-gray-700 focus:border-orange outline-none transition-colors text-white placeholder-gray-500">
-            <textarea rows="4" placeholder="Describe your equipment issue in detail..." class="w-full p-4 rounded-xl bg-black/40 border border-gray-700 focus:border-orange outline-none transition-colors text-white placeholder-gray-500 resize-none"></textarea>
-            
-            <!-- Emergency Options -->
-            <div class="flex flex-wrap gap-4 py-2">
-              <label class="flex items-center gap-2 text-gray-300">
-                <input type="checkbox" class="w-4 h-4 accent-orange">
-                <span class="text-sm">Emergency Dispatch</span>
-              </label>
-              <label class="flex items-center gap-2 text-gray-300">
-                <input type="checkbox" class="w-4 h-4 accent-orange">
-                <span class="text-sm">Need Spare Parts</span>
-              </label>
-              <label class="flex items-center gap-2 text-gray-300">
-                <input type="checkbox" class="w-4 h-4 accent-orange">
-                <span class="text-sm">Workshop Refurbishment</span>
-              </label>
-            </div>
-            
-            <button type="submit" class="w-full bg-orange hover:bg-orange-600 py-4 rounded-xl font-bold text-lg text-white transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-orange/25">
-              🚀 Send Urgent Inquiry
-            </button>
-            
-            <p class="text-xs text-gray-500 text-center mt-4">
-              We'll respond within 30 minutes during business hours
-            </p>
-          </form>
+          </div>
         </div>
       </div>
 
-      <!-- Map Section with Enhanced Card -->
-      <div class="lg:sticky lg:top-24 h-fit">
-        <div class="bg-white/5 backdrop-blur-sm p-4 rounded-3xl border border-gray-800 shadow-2xl">
-          <div class="rounded-2xl overflow-hidden h-[500px] lg:h-[600px] relative group">
-            <!-- Map Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none z-10"></div>
-            
-            <!-- Updated iframe: Mumbai city center -->
-            <iframe 
-              class="w-full h-full transform group-hover:scale-105 transition-transform duration-700" 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.821!2d72.877655!3d19.076090!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1730000000000!5m2!1sen!2sin"
-              style="border:0; filter: grayscale(0.2) contrast(1.1);" 
-              allowfullscreen 
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-            
-            <!-- Updated Map Location Badge -->
-            <div class="absolute bottom-6 left-6 bg-black/90 backdrop-blur-sm px-5 py-3 rounded-xl border border-orange/30 z-20">
-              <p class="text-orange font-bold text-lg">📍 Mumbai</p>
-              <p class="text-gray-400 text-sm">Maharashtra, India</p>
-            </div>
-          </div>
-          
-          <!-- Quick Action Buttons (unchanged) -->
-          <div class="grid grid-cols-2 gap-3 mt-4">
-            <a href="tel:+917021649368" class="flex items-center justify-center gap-2 bg-orange/10 hover:bg-orange/20 text-orange py-3 rounded-xl border border-orange/30 transition-all">
-              <span>📞</span>
-              <span class="font-semibold">Call Now</span>
-            </a>
-            <a href="mailto:rotarytech.ind@gmail.com" class="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white py-3 rounded-xl border border-gray-700 transition-all">
-              <span>📧</span>
-              <span class="font-semibold">Email Us</span>
-            </a>
+      <!-- Right column - industry cards compact -->
+      <div class="grid grid-cols-2 gap-3">
+        <!-- Oil & Gas -->
+        <div class="group relative h-36 rounded-xl overflow-hidden shadow-lg border border-[#4f6f8f]/30">
+          <img src="assets/industry1.webp" alt="Oil & Gas" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition" onerror="this.src='https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format'">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] to-transparent"></div>
+          <div class="absolute bottom-2 left-2">
+            <span class="text-xl">🛢️</span>
+            <h4 class="text-sm font-bold text-white">Oil & Gas</h4>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Trust Badges -->
-    <div class="flex flex-wrap justify-center items-center gap-8 mt-16 pt-8 border-t border-gray-800">
-      <div class="flex items-center gap-2 text-gray-400">
-        <svg class="w-5 h-5 text-orange" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        <span>24/7 Support</span>
-      </div>
-      <div class="flex items-center gap-2 text-gray-400">
-        <svg class="w-5 h-5 text-orange" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/></svg>
-        <span>30-Minute Response</span>
-      </div>
-      <div class="flex items-center gap-2 text-gray-400">
-        <svg class="w-5 h-5 text-orange" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-        <span>On-Site Crew Ready</span>
-      </div>
-    </div>
+        <!-- Petrochemical -->
+<div class="group relative h-36 rounded-xl overflow-hidden shadow-lg border border-[#4f6f8f]/30">
+  <img src="assets/industry2.jpg" alt="Petrochemical"
+       class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500"
+       onerror="this.src='https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=400&h=300&fit=crop&auto=format'">
+  <div class="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] to-transparent"></div>
+  <div class="absolute bottom-2 left-2">
+    <span class="text-xl">🧪</span>
+    <h4 class="text-sm font-bold text-white">Petrochemical</h4>
+    <p class="text-[9px] text-[#d4af37]">Cracking Units</p>
   </div>
-</section>
-
-<footer class="bg-black py-12 text-center text-gray-500 text-sm border-t border-gray-800">
-  © 2026 ROTARY TECH – Industrial Rotary Solutions<br>
-  ISO 9001 Certified • 24/7 Support • Bhiwandi, Thane, Maharashtra
-</footer>
-
-<!-- WhatsApp Floating Action Button -->
-<div class="fixed bottom-6 left-6 z-[9999] flex items-center gap-4">
-  <!-- WhatsApp Button -->
-  <a 
-    href="https://wa.me/9075030505?text=Hello%2C%20I'm%20interested%20in%20your%20rotary%20equipment%20services.%20I%20would%20like%20to%20get%20more%20information."
-    target="_blank"
-    rel="noopener noreferrer"
-    class="group relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:bg-[#128C7E] hover:shadow-xl hover:scale-110 active:scale-95"
-    aria-label="Chat with us on WhatsApp"
-  >
-    <!-- Official WhatsApp icon -->
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      viewBox="0 0 448 512" 
-      class="h-8 w-8"
-      fill="currentColor"
-    >
-      <!-- This is the most commonly used official-style path in 2024–2025 -->
-      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224-99.7 224-222 0-59.3-23.2-115-65.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
-    </svg>
-
-    <!-- Tooltip (shows on hover – hidden on mobile) -->
-    <span class="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-gray-900 px-3 py-2 text-sm text-white opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
-      Chat on WhatsApp
-    </span>
-  </a>
 </div>
 
-<!-- Optional: Back-to-top button (right side) -->
-<div class="fixed bottom-6 right-6 z-[9999]">
-  <button 
-    id="back-to-top"
-    class="flex h-14 w-14 items-center justify-center rounded-full bg-orange-600 text-white shadow-lg transition-all hover:bg-orange-700 hover:scale-110 active:scale-95 opacity-0 invisible"
-    aria-label="Back to top"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+
+<!-- Power -->
+<div class="group relative h-36 rounded-xl overflow-hidden shadow-lg border border-[#4f6f8f]/30">
+  <img src="assets/industry3.jpg" alt="Power"
+       class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500"
+       onerror="this.src='https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=400&h=300&fit=crop&auto=format'">
+  <div class="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] to-transparent"></div>
+  <div class="absolute bottom-2 left-2">
+    <span class="text-xl">⚡</span>
+    <h4 class="text-sm font-bold text-white">Power</h4>
+    <p class="text-[9px] text-[#d4af37]">Gas Turbines</p>
+  </div>
+</div>
+
+
+<!-- Fertilizer -->
+<div class="group relative h-36 rounded-xl overflow-hidden shadow-lg border border-[#4f6f8f]/30">
+  <img src="assets/industry4.jpg" alt="Fertilizer"
+       class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500"
+       onerror="this.src='https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&h=300&fit=crop&auto=format'">
+  <div class="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] to-transparent"></div>
+  <div class="absolute bottom-2 left-2">
+    <span class="text-xl">🌾</span>
+    <h4 class="text-sm font-bold text-white">Fertilizer</h4>
+    <p class="text-[9px] text-[#d4af37]">Urea Plants</p>
+  </div>
+</div>
+        
+        <!-- Global footprint - compact -->
+        <div class="col-span-2 bg-gradient-to-r from-[#1f2e40] to-[#0f1a24] rounded-xl p-3 flex items-center justify-between border border-[#4f6f8f]/30">
+          <div>
+            <span class="text-[10px] uppercase tracking-wider text-[#d4af37] font-bold">🌍 global</span>
+            <p class="text-sm font-bold text-white">Serving 15+ countries</p>
+            <div class="flex gap-3 mt-1">
+              <span class="text-[10px] text-[#a0b8cc]"><span class="text-[#d4af37] font-bold">24/7</span> emergency</span>
+              <span class="text-[10px] text-[#a0b8cc]"><span class="text-[#d4af37] font-bold">500+</span> projects</span>
+            </div>
+          </div>
+          <span class="text-3xl opacity-30">🌍</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Elite Endeavor Doors & Windows -->
+    <section class="py-16 bg-[#e8f5e9]">
+        <div class="container mx-auto px-4">
+
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#1a3c34] mb-16 md:mb-24 inline-block">
+                    Why Choose Rotary Tech?
+                    <span class="block w-20 h-1 mt-3 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full">
+                    </span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                <!-- Card 1: Expertise -->
+                <div
+                    class="relative text-center bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-20 px-6 pb-8">
+
+                    <!-- Human Image -->
+                    <img src="assets/wcu1.png" alt="Precision Engineering Expert"
+                        class="w-28 h-auto mx-auto absolute -top-20 left-1/2 -translate-x-1/2">
+
+                    <h3 class="text-xl font-bold text-[#1a3c34] mb-6 text-center">
+                        Expertise
+                        <span
+                            class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
+                    </h3>
+
+                    <p class="text-gray-600">
+                        Our team has extensive experience in the rotary industry.
+                    </p>
+                </div>
+
+                <!-- Card 2: Quality -->
+                <div
+                    class="relative text-center bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-20 px-6 pb-8">
+
+                    <img src="assets/wcu2.png" alt="Security Specialist"
+                        class="w-28 h-auto mx-auto absolute -top-20 left-1/2 -translate-x-1/2">
+
+                    <h3 class="text-xl font-bold text-[#1a3c34] mb-6 text-center">
+                        Quality
+                        <span
+                            class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
+                    </h3>
+                    <p class="text-gray-600">
+                        We use high-quality and advanced technologies.
+                    </p>
+                </div>
+
+                <!-- Card 3: Reliability -->
+                <div
+                    class="relative text-center bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-20 px-6 pb-8">
+
+                    <img src="assets/wcu3-removebg-preview.png" alt="Energy Efficiency Expert"
+                        class="w-28 h-auto mx-auto absolute -top-20 left-1/2 -translate-x-1/2">
+
+                    <h3 class="text-xl font-bold text-[#1a3c34] mb-6 text-center">
+                        Reliability
+                        <span
+                            class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
+                    </h3>
+
+                    <p class="text-gray-600">
+                        We deliver services on time, every time.
+                    </p>
+                </div>
+
+                <!-- Card 4: Competitive Pricing -->
+                <div
+                    class="relative text-center bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-20 px-6 pb-8">
+
+                    <img src="assets/wcu4.png" alt="Competitive Pricing Expert"
+                        class="w-28 h-auto mx-auto absolute -top-20 left-1/2 -translate-x-1/2">
+
+                    <h3 class="text-xl font-bold text-[#1a3c34] mb-6 text-center">
+                        Competitive Pricing
+                        <span
+                            class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
+                    </h3>
+
+                    <p class="text-gray-600">
+                        We offer competitive pricing without compromising on quality.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+<!-- Contact -->
+<section id="contact" class="relative py-16 px-6 overflow-hidden" style="background: linear-gradient(145deg, #f9fdfe 0%, #eef4fa 50%, #f3f8ff 100%);">
+  <!-- Floating rotary equipment icons - balanced quantity (reduced by ~40%) -->
+  <div class="absolute inset-0 pointer-events-none">
+    <!-- top area - fewer icons -->
+    <div class="absolute top-12 left-[10%] text-[#4f6f8f]/12 text-6xl rotate-12 animate-float-slow" style="animation-duration: 8s;">⚙️</div>
+    <div class="absolute top-20 left-[35%] text-[#4f6f8f]/10 text-5xl -rotate-6 animate-float" style="animation-duration: 7s;">🔧</div>
+    <div class="absolute top-16 left-[65%] text-[#4f6f8f]/10 text-7xl animate-spin-slow">🌀</div>
+    <div class="absolute top-24 left-[85%] text-[#4f6f8f]/12 text-5xl animate-bounce-slow" style="animation-duration: 6s;">⚡</div>
+    
+    <!-- middle area - balanced -->
+    <div class="absolute top-1/3 left-[15%] text-[#4f6f8f]/10 text-7xl animate-float" style="animation-duration: 10s;">🔧</div>
+    <div class="absolute top-2/3 left-[45%] text-[#4f6f8f]/8 text-6xl animate-spin-slow" style="animation-duration: 22s;">⛽</div>
+    <div class="absolute top-1/2 left-[75%] text-[#4f6f8f]/10 text-5xl animate-float" style="animation-duration: 8s;">💨</div>
+    
+    <!-- bottom area - minimal -->
+    <div class="absolute bottom-16 left-[20%] text-[#4f6f8f]/12 text-6xl animate-float" style="animation-duration: 7s;">🔩</div>
+    <div class="absolute bottom-24 left-[55%] text-[#4f6f8f]/8 text-7xl animate-spin-slow" style="animation-duration: 20s;">⚙️</div>
+    <div class="absolute bottom-12 left-[80%] text-[#4f6f8f]/10 text-5xl animate-bounce-slow" style="animation-duration: 6s;">🌀</div>
+    
+    <!-- subtle small accents (just 2) -->
+    <div class="absolute top-40 left-[45%] text-[#4f6f8f]/5 text-3xl animate-pulse">⚙️</div>
+    <div class="absolute bottom-40 left-[10%] text-[#4f6f8f]/5 text-3xl animate-pulse">🔧</div>
+  </div>
+  
+  <!-- subtle pattern overlay -->
+  <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#4f6f8f 0.8px, transparent 0.8px); background-size: 24px 24px;"></div>
+  
+  <div class="max-w-6xl mx-auto relative z-10">
+    <!-- header - bright with rotary theme -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm shadow-md px-4 py-2 rounded-full border border-[#4f6f8f]/30">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4f6f8f] opacity-40"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#4f6f8f]"></span>
+        </span>
+        <span class="text-[#0a192f] font-semibold text-xs tracking-wider">⚙️ 24/7 ROTARY EMERGENCY</span>
+      </div>
+      
+      <h2 class="mt-4 text-3xl md:text-4xl font-bold text-[#0a192f] flex items-center justify-center gap-2">
+        <span class="text-2xl animate-spin-slow inline-block">⚙️</span>
+        Down? <span class="text-[#4f6f8f]">We're On It</span>
+        <span class="text-2xl animate-bounce-slow inline-block">🔧</span>
+      </h2>
+      
+      <p class="mt-2 text-sm text-[#4f6f8f] max-w-xl mx-auto">
+        <span class="animate-pulse">⚡</span> Fast diagnostics • Emergency spares • On-site dispatch <span class="animate-pulse">⚡</span>
+      </p>
+    </div>
+
+    <!-- main grid: left map/contacts + right form -->
+    <div class="grid lg:grid-cols-2 gap-6">
+      
+      <!-- left column - map & contact pills -->
+      <div class="space-y-4">
+        <!-- map card - with subtle icon overlay -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-xl overflow-hidden border border-[#4f6f8f]/20 shadow-lg relative">
+          <div class="absolute top-2 right-2 text-[#4f6f8f]/15 text-3xl z-10 animate-spin-slow">⚙️</div>
+          <div class="relative h-48 md:h-56">
+            <iframe 
+              class="absolute inset-0 w-full h-full" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.8!2d73.058!3d19.300!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b8e!2sBhiwandi%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1730000000000!5m2!1sen!2sin" 
+              style="border:0;" allowfullscreen loading="lazy">
+            </iframe>
+            <!-- location badge -->
+            <div class="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-lg border border-[#4f6f8f]/20 shadow-md text-xs">
+              <div class="flex items-center gap-1">
+                <span class="text-[#4f6f8f]">📍</span>
+                <strong class="text-[#0a192f]">Bhiwandi, Thane</strong>
+              </div>
+              <span class="text-[#4f6f8f] ml-4">Maharashtra, India</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- contact quick pills - clean 3-col -->
+        <div class="grid grid-cols-3 gap-3">
+          <!-- location pill -->
+          <div class="bg-white/95 backdrop-blur-sm rounded-lg py-3 px-2 border border-[#4f6f8f]/20 shadow-md flex flex-col items-center text-center hover:shadow-lg transition">
+            <span class="text-xl text-[#4f6f8f] mb-1">🏭</span>
+            <span class="text-xs font-medium text-[#0a192f]">Bhiwandi</span>
+            <span class="text-[9px] text-[#4f6f8f]">HQ</span>
+          </div>
+          <!-- phone pill -->
+          <a href="tel:+917021649368" class="bg-white/95 backdrop-blur-sm rounded-lg py-3 px-2 border border-[#4f6f8f]/20 shadow-md flex flex-col items-center text-center hover:shadow-lg transition">
+            <span class="text-xl text-[#4f6f8f] mb-1">📞</span>
+            <span class="text-xs font-medium text-[#0a192f]">Call</span>
+            <span class="text-[9px] text-[#4f6f8f]">24/7</span>
+          </a>
+          <!-- email pill -->
+          <a href="mailto:rotarytech.ind@gmail.com" class="bg-white/95 backdrop-blur-sm rounded-lg py-3 px-2 border border-[#4f6f8f]/20 shadow-md flex flex-col items-center text-center hover:shadow-lg transition">
+            <span class="text-xl text-[#4f6f8f] mb-1">📧</span>
+            <span class="text-xs font-medium text-[#0a192f]">Email</span>
+            <span class="text-[9px] text-[#4f6f8f]">now</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- right column - urgent inquiry form -->
+      <div class="bg-white/95 backdrop-blur-sm rounded-xl border border-[#4f6f8f]/20 p-6 shadow-lg relative">
+        <!-- subtle icon decorations (just 2) -->
+        <div class="absolute -top-2 -right-2 text-[#4f6f8f]/10 text-3xl animate-spin-slow">⚙️</div>
+        <div class="absolute -bottom-2 -left-2 text-[#4f6f8f]/10 text-3xl animate-bounce-slow">🔧</div>
+        
+        <h3 class="text-lg font-bold text-[#0a192f] mb-4 flex items-center gap-2">
+          <span class="w-1 h-5 bg-[#4f6f8f] rounded-full"></span>
+          Urgent Rotary Inquiry
+        </h3>
+        
+        <form class="space-y-3">
+          <div class="relative">
+            <input type="text" placeholder="Name *" required 
+                   class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">👤</span>
+          </div>
+          
+          <div class="relative">
+            <input type="email" placeholder="Email *" required 
+                   class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">✉️</span>
+          </div>
+          
+          <div class="relative">
+            <input type="tel" placeholder="Phone (optional)" 
+                   class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">📱</span>
+          </div>
+          
+          <div class="relative">
+            <textarea rows="2" placeholder="Equipment issue & urgency *" required 
+                      class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9 resize-none"></textarea>
+            <span class="absolute left-3 top-3 text-[#4f6f8f] text-sm">⚙️</span>
+          </div>
+          
+          <button type="submit" 
+                  class="w-full bg-[#0a192f] hover:bg-[#1e3347] text-white font-semibold py-2.5 rounded-lg transition text-sm mt-2 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+            <span>Send Request</span>
+            <span>⚡</span>
+          </button>
+        </form>
+        
+        <p class="text-[10px] text-center text-[#4f6f8f] mt-3 flex items-center justify-center gap-1">
+          <span>⚙️</span> Immediate callback for critical failures
+        </p>
+      </div>
+    </div>
+
+    <!-- trust badges - clean -->
+    <div class="flex justify-center gap-4 mt-6 text-xs text-[#4f6f8f]">
+      <span class="flex items-center gap-1"><span class="text-sm">⚙️</span>ISO 9001</span>
+      <span class="text-[#4f6f8f]/30">|</span>
+      <span class="flex items-center gap-1"><span class="text-sm">🔧</span>24/7 Rotary Support</span>
+      <span class="text-[#4f6f8f]/30">|</span>
+      <span class="flex items-center gap-1"><span class="text-sm">⚡</span>90-min response</span>
+    </div>
+    
+    <!-- single line of icons at bottom (subtle) -->
+    <div class="flex justify-center gap-3 mt-4 text-[#4f6f8f]/20 text-xl">
+      <span>⚙️</span> <span>🔧</span> <span>🌀</span> <span>⚡</span> <span>⛽</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer (dark) as original, but refined -->
+<footer class="bg-[#0a192f] py-16 text-white border-t border-[#1e3a5f]">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div><div class="flex items-center mb-4"><div class="flex items-center mb-4">
+  <img src="assets/RT Logo.png" 
+       alt="Rotary Tech Logo"
+       class="h-14 w-auto object-contain">
+</div></div><p class="text-[#a0b8cc] text-sm leading-relaxed mb-4">Precision in Motion. Expert repair, refurbishment and engineering services for critical rotary equipment.</p><div class="flex space-x-4"><a href="#" class="w-10 h-10 bg-[#1e3a5f] rounded-full flex items-center justify-center hover:bg-[#2a5c7a] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.99h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.99C18.343 21.128 22 16.991 22 12z"/></svg></a><a href="#" class="w-10 h-10 bg-[#1e3a5f] rounded-full flex items-center justify-center hover:bg-[#2a5c7a] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a><a href="#" class="w-10 h-10 bg-[#1e3a5f] rounded-full flex items-center justify-center hover:bg-[#2a5c7a] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a></div></div>
+      <div><h3 class="text-white font-bold text-lg mb-4 border-b border-[#1e3a5f] pb-2">Quick Links</h3><ul class="space-y-3"><li><a href="#home" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Home</a></li><li><a href="#about" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> About Us</a></li><li><a href="#services" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Services</a></li><li><a href="#industries" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Industries</a></li><li><a href="#contact" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Contact</a></li></ul></div>
+      <div><h3 class="text-white font-bold text-lg mb-4 border-b border-[#1e3a5f] pb-2">Our Services</h3><ul class="space-y-3"><li><a href="#service-pumps" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Pump Repair</a></li><li><a href="#service-compressors" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Compressor Services</a></li><li><a href="#service-diesel-generators" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Diesel Generator Overhaul</a></li><li><a href="#service-reverse-engineering" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Reverse Engineering</a></li><li><a href="#service-onsite-support" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> On-site Support</a></li></ul></div>
+      <div><h3 class="text-white font-bold text-lg mb-4 border-b border-[#1e3a5f] pb-2">Contact Us</h3><ul class="space-y-4"><li class="flex items-start"><span class="text-[#2a5c7a] mr-3 mt-1">📍</span><span class="text-[#a0b8cc] text-sm">Bhiwandi, Thane, Maharashtra 421302, India</span></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">📞</span><a href="tel:+917021649368" class="text-[#a0b8cc] hover:text-white text-sm">+91 70216 49368</a></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">📧</span><a href="mailto:rotarytech.ind@gmail.com" class="text-[#a0b8cc] hover:text-white text-sm">rotarytech.ind@gmail.com</a></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">⏰</span><span class="text-[#a0b8cc] text-sm">24/7 Emergency Support</span></li></ul></div>
+    </div>
+    <div class="border-t border-[#1e3a5f] my-8"></div>
+    <div class="flex flex-col md:flex-row justify-between items-center text-sm"><div class="text-[#a0b8cc] mb-4 md:mb-0">© 2026 <span class="text-white font-semibold">ROTARY TECH</span> – Industrial Rotary Solutions</div><div class="flex gap-4"><span class="text-[#a0b8cc]">ISO 9001 Certified</span><span class="text-[#a0b8cc]">24/7 Emergency</span></div></div>
+  </div>
+</footer>
+
+<!-- WhatsApp Floating Button -->
+<div class="fixed bottom-6 left-6 z-[9999]">
+  <a href="https://wa.me/9075030505?text=Hello%2C%20I'm%20interested%20in%20your%20rotary%20equipment%20services."
+     target="_blank"
+     class="group relative flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] shadow-2xl transition duration-300 hover:scale-110">
+
+    <!-- Official WhatsApp SVG -->
+    <svg viewBox="0 0 32 32" class="h-9 w-9 fill-white">
+      <path d="M16 .396C7.164.396 0 7.56 0 16.396c0 2.877.754 5.68 2.188 8.148L0 32l7.646-2.167A15.94 15.94 0 0016 32c8.836 0 16-7.164 16-16.004C32 7.56 24.836.396 16 .396zm0 29.145c-2.59 0-5.13-.676-7.356-1.955l-.527-.312-4.538 1.287 1.211-4.427-.343-.56A13.91 13.91 0 012.09 16.396c0-7.671 6.239-13.91 13.91-13.91 3.713 0 7.203 1.447 9.83 4.074a13.843 13.843 0 014.08 9.836c0 7.671-6.239 13.91-13.91 13.91zm7.633-10.27c-.417-.208-2.463-1.215-2.846-1.355-.38-.14-.658-.208-.936.208s-1.075 1.355-1.318 1.634c-.243.28-.487.312-.904.104-.417-.208-1.76-.649-3.352-2.07-1.238-1.104-2.074-2.463-2.317-2.88-.243-.417-.026-.642.183-.85.188-.188.417-.487.625-.73.208-.243.278-.417.417-.695.14-.278.07-.521-.035-.73-.104-.208-.936-2.257-1.283-3.09-.338-.812-.683-.703-.936-.716l-.799-.013c-.278 0-.73.104-1.113.521s-1.46 1.426-1.46 3.476 1.495 4.033 1.703 4.311c.208.278 2.94 4.487 7.126 6.29.996.43 1.773.687 2.378.879 1 .318 1.91.273 2.63.165.803-.12 2.463-1.006 2.81-1.977.347-.971.347-1.804.243-1.977-.104-.173-.38-.278-.799-.487z"/>
     </svg>
+
+    <!-- Tooltip -->
+    <span class="absolute left-full ml-4 top-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-gray-900 px-3 py-2 text-sm text-white opacity-0 shadow-xl transition group-hover:opacity-100">
+      Chat on WhatsApp
+    </span>
+
+  </a>
+</div>
+<!-- Back to Top Button with Wrench - Continuous Bouncy Effect -->
+<div class="fixed bottom-6 right-6 z-[9999]">
+  <button
+    id="back-to-top"
+    class="group flex h-16 w-16 items-center justify-center text-[#0a192f] transition-all duration-300 hover:scale-110 focus:outline-none"
+    aria-label="Back to top"
+    style="background: transparent !important; box-shadow: none !important;"
+  >
+    <!-- Wrench icon with continuous bouncy rubber band effect -->
+    <span class="text-5xl block animate-bounce-wrench-continuous drop-shadow-lg">
+      🔧
+    </span>
   </button>
 </div>
 
+<!-- GSAP Animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
 <script>
-// Force top on hard refresh / initial load
-if ('scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
-}
-window.addEventListener('load', () => {
-  window.scrollTo(0, 0);
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+// Animate hero title
+gsap.from('#hero-title', { opacity:0, y:50, duration:1, ease:'power3' });
+gsap.from('#hero-sub', { opacity:0, y:30, delay:0.3, duration:1 });
+
+// Animate sections on scroll
+gsap.utils.toArray('#about, #services, #industries, #contact').forEach(section => {
+  gsap.from(section, { 
+    scrollTrigger: { trigger: section, start: 'top 80%' },
+    opacity:0, y:50, duration:1, ease:'power2' 
+  });
 });
 
-  // Force top on hard refresh / initial load
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
+// Filter & service link functions (keep original logic)
+document.addEventListener('DOMContentLoaded', function() {
+  const filterBtns = document.querySelectorAll('.category-filter-btn');
+  const serviceCategories = document.querySelectorAll('.category-services');
+  const serviceLinks = document.querySelectorAll('.service-link');
+  function switchCategory(category) {
+    serviceCategories.forEach(cat => { cat.classList.remove('active'); cat.classList.add('hidden'); });
+    const selectedCat = document.getElementById(category + '-services');
+    if(selectedCat) { selectedCat.classList.remove('hidden'); selectedCat.classList.add('active'); }
+    filterBtns.forEach(btn => { btn.classList.remove('active', 'bg-[#0a192f]', 'text-white'); });
+    const activeBtn = Array.from(filterBtns).find(b => b.dataset.category === category);
+    if(activeBtn) { activeBtn.classList.add('active', 'bg-[#0a192f]', 'text-white'); }
   }
-  window.addEventListener('load', () => {
-    window.scrollTo(0, 0);
-  });
-
-  // GSAP reveals
-  gsap.registerPlugin(ScrollTrigger);
-  gsap.utils.toArray('.card, section > div').forEach(el => {
-    gsap.from(el, {
-      y: 60,
-      opacity: 0,
-      duration: 1.2,
-      scrollTrigger: { trigger: el, start: 'top 80%' }
-    });
-  });
-
-  // Mobile menu functionality
-  (function() {
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const toggleBtn = document.getElementById('mobileServicesToggle');
-    const panel = document.getElementById('mobileServicesPanel');
-    const chevron = document.getElementById('mobileChevron');
-
-    if (menuBtn && mobileMenu) {
-      menuBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        mobileMenu.classList.toggle('hidden');
-        
-        if (!mobileMenu.classList.contains('hidden') && panel && !panel.classList.contains('hidden')) {
-          panel.classList.add('hidden');
-          if (chevron) chevron.style.transform = 'rotate(0deg)';
-        }
-      });
-    }
-
-    if (toggleBtn && panel && chevron) {
-      toggleBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        panel.classList.toggle('hidden');
-        chevron.style.transform = panel.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-      });
-    }
-
-    const mobileLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-        }
-        if (panel && !panel.classList.contains('hidden')) {
-          panel.classList.add('hidden');
-          if (chevron) chevron.style.transform = 'rotate(0deg)';
-        }
-      });
-    });
-
-    document.addEventListener('click', function(e) {
-      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-        if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-          mobileMenu.classList.add('hidden');
-          if (panel && !panel.classList.contains('hidden')) {
-            panel.classList.add('hidden');
-            if (chevron) chevron.style.transform = 'rotate(0deg)';
-          }
-        }
-      }
-    });
-  })();
-
-  // ────────────────────────────────────────────────────────────────
-  // Services category filtering and linking (THIS IS THE ONLY ACTIVE BLOCK)
-  // ────────────────────────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', function() {
-    const filterBtns = document.querySelectorAll('.category-filter-btn');
-    const serviceCategories = document.querySelectorAll('.category-services');
-    const serviceLinks = document.querySelectorAll('.service-link');
-    
-    // Function to switch category
-    function switchCategory(category) {
-      // Hide all categories and remove active
-      serviceCategories.forEach(cat => {
-        cat.classList.remove('active');
-        cat.classList.add('hidden');
-      });
-      
-      // Show selected category
-      const selectedCat = document.getElementById(category + '-services');
-      if (selectedCat) {
-        selectedCat.classList.remove('hidden');
-        selectedCat.classList.add('active');
-      }
-      
-      // Reset ALL filter buttons
-      filterBtns.forEach(btn => {
-        btn.classList.remove('bg-orange', 'text-white', 'shadow-lg', 'active');
-        btn.classList.add('bg-white/10', 'text-white');
-      });
-      
-      // Activate the clicked button
-      const activeBtn = Array.from(filterBtns).find(b => b.dataset.category === category);
-      if (activeBtn) {
-        activeBtn.classList.remove('bg-white/10', 'text-white');
-        activeBtn.classList.add('bg-orange', 'text-white', 'shadow-lg', 'active');
-      }
-    }
-    
-    // Add click event to filter buttons
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const category = this.dataset.category;
-        switchCategory(category);
-      });
-    });
-
-    // Set default state on load
-    switchCategory('rotary');
-    
-    // Function to activate service from link
-    function activateServiceFromLink(targetId) {
-      const targetCard = document.getElementById(targetId);
-      if (!targetCard) return;
-      
-      let targetCategory = '';
-      if (targetId.includes('pumps') || targetId.includes('compressors') || targetId.includes('diesel') || targetId.includes('overhaul') || targetId.includes('advanced')) {
-        targetCategory = 'rotary';
-      } else if (targetId.includes('installation') || targetId.includes('emergency') || targetId.includes('reverse')) {
-        targetCategory = 'engineering';
-      } else {
-        targetCategory = 'manpower';
-      }
-      
-      switchCategory(targetCategory);
-      
-      document.querySelectorAll('.service-card').forEach(card => {
-        card.style.boxShadow = '';
-        card.style.borderColor = '';
-        card.classList.remove('highlight-pulse');
-      });
-      
-      targetCard.style.boxShadow = '0 0 0 3px var(--orange), 0 20px 25px -5px rgba(0,0,0,0.2)';
-      targetCard.style.borderColor = 'var(--orange)';
-      targetCard.classList.add('highlight-pulse');
-      
-      setTimeout(() => {
-        targetCard.style.boxShadow = '';
-        targetCard.style.borderColor = '';
-        targetCard.classList.remove('highlight-pulse');
-      }, 3000);
-      
-      const servicesSection = document.getElementById('services');
-      if (servicesSection) {
-        servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-    
-    // Handle click on service links
-    serviceLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const href = this.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          const targetId = href.substring(1);
-          activateServiceFromLink(targetId);
-          
-          const mobileMenu = document.getElementById('mobileMenu');
-          if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-            mobileMenu.classList.add('hidden');
-          }
-        }
-      });
-    });
-    
-    // Only process hash on first load if it was in the URL from the beginning
+  filterBtns.forEach(btn => { btn.addEventListener('click', function() { switchCategory(this.dataset.category); }); });
+  switchCategory('rotary');
+  
+  function activateServiceFromLink(targetId) {
+    const targetCard = document.getElementById(targetId); if(!targetCard) return;
+    let targetCategory='rotary';
+    if(targetId.includes('installation')||targetId.includes('emergency')||targetId.includes('reverse')) targetCategory='engineering';
+    else if(!targetId.includes('pumps')&&!targetId.includes('compressors')&&!targetId.includes('diesel')&&!targetId.includes('overhaul')&&!targetId.includes('advanced')) targetCategory='manpower';
+    switchCategory(targetCategory);
+    document.querySelectorAll('.service-card').forEach(c=>{ c.style.boxShadow=''; c.classList.remove('highlight-pulse'); });
+    targetCard.classList.add('highlight-pulse');
+    setTimeout(()=> targetCard.classList.remove('highlight-pulse'), 2000);
+    document.getElementById('services').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  
+  serviceLinks.forEach(link=>{ link.addEventListener('click',function(e){ e.preventDefault(); const href=this.getAttribute('href'); if(href&&href.startsWith('#')) activateServiceFromLink(href.substring(1)); }); });
+  
+  // Only process hash on first load if it was in the URL from the beginning
 document.addEventListener('DOMContentLoaded', () => {
   if (window.location.hash) {
     const hash = window.location.hash.substring(1);
@@ -1061,110 +1028,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
-  });
+});
 
-  (function() {
-    // Add intersection observer for fade-in effects
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          entry.target.classList.remove('opacity-0', 'translate-y-10');
-        }
-      });
-    }, { threshold: 0.1 });
+// Back to top
+const btn = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => { btn.classList.toggle('visible', window.scrollY > 300); });
+btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-    // Observe all industry cards
-    document.querySelectorAll('#industries .group, #industries .bg-white\\/5').forEach(el => {
-      el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700');
-      observer.observe(el);
-    });
-  })();
+// Mobile menu toggle
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+menuBtn?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
-  // WhatsApp redirect function with customized messages
-  function redirectToWhatsApp(category, serviceName) {
-    const phoneNumber = "9075030505";
-    
-    let message = "";
-    
-    if (category === "rotary") {
-      switch(serviceName) {
-        case "Pump Repair & Refurbishment":
-          message = "Hello, I'm interested in your Pump Repair & Refurbishment services for industrial pumps. I would like to discuss my requirements and get more information about your pump repair capabilities.";
-          break;
-        case "Compressor Services":
-          message = "Hello, I'm interested in your Compressor Services. I would like to discuss my compressor repair and maintenance needs with your team.";
-          break;
-        case "Diesel Generator Overhaul":
-          message = "Hello, I'm interested in your Diesel Generator Overhaul services. I would like to get more information about your DG set repair and maintenance capabilities.";
-          break;
-        case "Overhaul & Upgrade":
-          message = "Hello, I'm interested in your Overhaul & Upgrade services. I would like to discuss advanced repair technologies and upgrade options for my equipment.";
-          break;
-        case "Advanced Repair Technologies":
-          message = "Hello, I'm interested in your Advanced Repair Technologies including laser cladding and precision machining. I would like to know more about these services.";
-          break;
-        default:
-          message = `Hello, I'm interested in your ${serviceName} service under Rotary Equipment. I would like to get more information.`;
-      }
-    } 
-    else if (category === "engineering") {
-      switch(serviceName) {
-        case "Installation & Commissioning":
-          message = "Hello, I'm interested in your Installation & Commissioning services for rotary equipment. I would like to discuss my project requirements.";
-          break;
-        case "Emergency Spares Fabrication":
-          message = "Hello, I'm interested in your Emergency Spares Fabrication services. I have some urgent spare part requirements I'd like to discuss.";
-          break;
-        case "Reverse Engineering":
-          message = "Hello, I'm interested in your Reverse Engineering services. I need help with creating CAD models and replicating some obsolete parts.";
-          break;
-        default:
-          message = `Hello, I'm interested in your ${serviceName} service under Engineering Services. I would like to get more information.`;
-      }
-    } 
-    else if (category === "manpower") {
-      switch(serviceName) {
-        case "On-site Technical Support":
-          message = "Hello, I'm interested in your On-site Technical Support services. I would like to discuss getting technicians and engineers for my site.";
-          break;
-        case "Off-site Engineering Support":
-          message = "Hello, I'm interested in your Off-site Engineering Support. I need remote technical guidance and consultation for my project.";
-          break;
-        case "Equipment Maintenance Experts":
-          message = "Hello, I'm interested in your Equipment Maintenance Experts. I would like to discuss predictive maintenance and regular servicing for my equipment.";
-          break;
-        case "Troubleshooting & Repair":
-          message = "Hello, I'm interested in your Troubleshooting & Repair services. I need help diagnosing and fixing issues with my equipment.";
-          break;
-        default:
-          message = `Hello, I'm interested in your ${serviceName} service under Skilled Manpower. I would like to get more information.`;
-      }
-    }
-    
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-    window.open(whatsappURL, '_blank');
+// redirectToWhatsApp stub
+window.redirectToWhatsApp = (cat, service) => { window.open(`https://wa.me/9075030505?text=Hello%2C%20I'm%20interested%20in%20${service}`, '_blank'); };
+
+// Show/hide button when scrolling
+const backToTopBtn = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) {
+    backToTopBtn.style.opacity = '1';
+    backToTopBtn.style.transform = 'translateY(0)';
+    backToTopBtn.style.pointerEvents = 'auto';
+  } else {
+    backToTopBtn.style.opacity = '0';
+    backToTopBtn.style.transform = 'translateY(20px)';
+    backToTopBtn.style.pointerEvents = 'none';
   }
+});
 
-  // Back to top functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('back-to-top');
-    if (!btn) return;
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        btn.classList.add('visible');
-      } else {
-        btn.classList.remove('visible');
-      }
-    });
-
-    btn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  });
-</script>
+// Smooth scroll to top with extra bounce on click
+backToTopBtn.addEventListener('click', () => {
+  // Add temporary stronger bounce on click
+  const icon = backToTopBtn.querySelector('span');
+  icon.style.animation = 'bounceWrenchContinuous 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite';
+  icon.style.transform = 'scale(1.3)';
   
+  setTimeout(() => {
+    icon.style.animation = '';
+    icon.style.transform = '';
+  }, 300);
+  
+  // Smooth scroll to top
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+</script>
+
 </body>
 </html>
