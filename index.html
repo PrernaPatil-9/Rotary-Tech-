@@ -343,6 +343,49 @@
   transform: scale(1.2);
 }
 
+/* Why Choose Us */
+@keyframes gradientFlow {
+    0% { background-position: 0% 30%; }
+    30% { background-position: 50% 70%; }
+    60% { background-position: 80% 20%; }
+    100% { background-position: 100% 80%; }
+}
+
+@keyframes waterRipple {
+    0% {
+        background-position: 0% 20%;
+        background-size: 200% 200%;
+        opacity: 0.7;
+    }
+    35% {
+        background-position: 60% 40%;
+        background-size: 250% 220%;
+        opacity: 0.9;
+    }
+    70% {
+        background-position: 20% 80%;
+        background-size: 180% 260%;
+        opacity: 0.8;
+    }
+    100% {
+        background-position: 85% 30%;
+        background-size: 220% 200%;
+        opacity: 0.9;
+    }
+}
+
+/* Ensure images are always above effects */
+.relative.z-10 {
+    position: relative;
+    z-index: 10;
+}
+
+/* Fix for image container */
+.absolute.left-1\/2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
   </style>
 </head>
 <body class="antialiased">
@@ -416,11 +459,13 @@
     <button id="menuBtn" class="lg:hidden text-4xl focus:outline-none text-[#0a192f] hover:text-[#2a5c7a] transition">☰</button>
   </div>
 
-  <!-- Mobile Menu (unchanged) -->
+  <!-- Mobile Menu with Complete Service Options -->
   <div id="mobileMenu" class="hidden lg:hidden">
-    <nav class="flex flex-col px-8 py-6 text-lg font-medium">
+    <nav class="flex flex-col px-8 py-6 text-lg font-medium max-h-[80vh] overflow-y-auto">
       <a href="#home" class="py-3 border-b border-[#e2e8f0] hover:text-[#2a5c7a] transition">Home</a>
       <a href="#about" class="py-3 border-b border-[#e2e8f0] hover:text-[#2a5c7a] transition">About</a>
+      
+      <!-- Services Dropdown with ALL desktop options -->
       <div class="py-3 border-b border-[#e2e8f0]">
         <button id="mobileServicesToggle" class="flex items-center justify-between w-full hover:text-[#2a5c7a] focus:outline-none">
           <span>Services</span>
@@ -428,15 +473,44 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
-        <div id="mobileServicesPanel" class="hidden mt-3 pl-4 space-y-3 text-sm">
-          <a href="#service-pumps" class="service-link block py-1">Pumps</a>
-          <a href="#service-compressors" class="service-link block py-1">Compressors</a>
-          <a href="#service-diesel-generators" class="service-link block py-1">Diesel Generators</a>
-          <a href="#service-installation" class="service-link block py-1">Installation</a>
-          <a href="#service-reverse-engineering" class="service-link block py-1">Reverse Engineering</a>
-          <a href="#service-onsite-support" class="service-link block py-1">On-site Support</a>
+        
+        <!-- Complete service panel with categories -->
+        <div id="mobileServicesPanel" class="hidden mt-4 space-y-4 text-sm">
+          
+          <!-- Repair/Refurbishment Category -->
+          <div class="pl-2">
+            <h4 class="font-bold text-[#0a192f] mb-2 flex items-center gap-1">🔧 Repair/Refurbishment</h4>
+            <div class="pl-4 space-y-2 border-l-2 border-[#2a5c7a]/20">
+              <a href="#service-pumps" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Pumps</a>
+              <a href="#service-compressors" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Compressors</a>
+              <a href="#service-diesel-generators" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Diesel Generators</a>
+              <a href="#service-overhaul" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Overhaul & upgrade services</a>
+              <a href="#service-advanced-tech" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1 transition-all">Advanced repair technologies</a>
+            </div>
+          </div>
+          
+          <!-- Engineering Services Category -->
+          <div class="pl-2">
+            <h4 class="font-bold text-[#0a192f] mb-2 flex items-center gap-1">⚙️ Engineering Services</h4>
+            <div class="pl-4 space-y-2 border-l-2 border-[#2a5c7a]/20">
+              <a href="#service-installation" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1">Installation & Commissioning</a>
+              <a href="#service-emergency-spares" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1">Fabrication of emergency spares</a>
+              <a href="#service-reverse-engineering" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1">Reverse engineering</a>
+            </div>
+          </div>
+          
+          <!-- Skilled Manpower Category -->
+          <div class="pl-2">
+            <h4 class="font-bold text-[#0a192f] mb-2 flex items-center gap-1">👥 Skilled Manpower</h4>
+            <div class="pl-4 space-y-2 border-l-2 border-[#2a5c7a]/20">
+              <a href="#service-onsite-support" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1">Trained technicians (on-site/off-site)</a>
+              <a href="#service-maintenance" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1">Equipment maintenance experts</a>
+              <a href="#service-troubleshooting" class="service-link block py-1.5 hover:text-[#2a5c7a] hover:translate-x-1">Troubleshooting & repair</a>
+            </div>
+          </div>
         </div>
       </div>
+      
       <a href="#industries" class="py-3 border-b border-[#e2e8f0] hover:text-[#2a5c7a] transition">Industries</a>
       <a href="#contact" class="mt-4 btn-primary text-center py-4 rounded-xl font-bold">Get Quote</a>
     </nav>
@@ -453,9 +527,9 @@
     <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold display-font leading-tight mb-6 text-white drop-shadow-lg" id="hero-title">
       Rotary Equipment<br><span class="text-[#d4af37]">Rebuilt for Reliability</span>
     </h1>
-    <p class="text-xl md:text-2xl lg:text-3xl text-gray-100 max-w-3xl mb-10 leading-relaxed drop-shadow-md" id="hero-sub">
-      Fast-response repair, precision refurbishment, reverse engineering & 24/7 skilled manpower.
-    </p>
+    <p class="text-xl md:text-2xl lg:text-3xl text-gray-100 max-w-3xl mb-10 leading-relaxed drop-shadow-md font-serif" id="hero-sub">
+  Fast-response repair, precision refurbishment, reverse engineering & 24/7 skilled manpower.
+</p>
     <div class="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
       <a href="#contact" class="btn-primary px-10 py-5 md:px-12 md:py-6 rounded-xl font-bold text-lg md:text-xl shadow-xl bg-gradient-to-r from-[#0a192f] to-[#1f4a70] hover:scale-105">Request Support</a>
       <a href="#about" class="btn-outline-modern px-10 py-5 md:px-12 md:py-6 rounded-xl font-bold text-lg md:text-xl border-2 border-white text-white hover:bg-white hover:text-[#0a192f] transition">Discover Our Expertise</a>
@@ -662,95 +736,144 @@
   </div>
 </section>
 
-<!-- Why Elite Endeavor Doors & Windows -->
-    <section class="py-16 bg-[#e8f5e9]">
-        <div class="container mx-auto px-4">
+<!-- Why Choose Us -->
+<section class="py-16 bg-blue-200">
+    <div class="container mx-auto px-4 -mt-8">
 
-            <div class="text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#1a3c34] mb-16 md:mb-24 inline-block">
-                    Why Choose Rotary Tech?
-                    <span class="block w-20 h-1 mt-3 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full">
-                    </span>
-                </h2>
-            </div>
+    <div class="text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-[#1a3c34] mb-16 md:mb-24 inline-block">
+            Why Choose Rotary Tech?
+            <span class="block w-20 h-1 mt-3 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full">
+            </span>
+        </h2>
+    </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-                <!-- Card 1: Expertise -->
-                <div
-                    class="relative text-center bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-20 px-6 pb-8">
+            <!-- Card 1: Expertise -->
+            <div class="relative text-center rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-16 px-6 pb-8 card-1" style="background: linear-gradient(125deg, #a0e9ff, #5fa8d3, #1e6091, #184e77); background-size: 300% 300%; animation: gradientFlow 7s ease infinite alternate;">
 
-                    <!-- Human Image -->
-                    <img src="assets/wcu1.png" alt="Precision Engineering Expert"
-                        class="w-28 h-auto mx-auto absolute -top-20 left-1/2 -translate-x-1/2">
+                <!-- Ripple overlay - faster animation -->
+                <div class="absolute inset-0 rounded-xl pointer-events-none" style="
+                    background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.25) 0%, transparent 35%),
+                                radial-gradient(circle at 80% 70%, rgba(255, 245, 210, 0.3) 0%, transparent 40%),
+                                radial-gradient(circle at 10% 80%, rgba(190, 230, 255, 0.35) 0%, transparent 45%),
+                                radial-gradient(circle at 70% 20%, rgba(255, 220, 180, 0.3) 0%, transparent 40%);
+                    background-blend-mode: overlay, soft-light, screen, normal;
+                    opacity: 0.9;
+                    animation: waterRipple 6s cubic-bezier(0.45, 0.05, 0.2, 0.99) infinite alternate;
+                    mix-blend-mode: overlay;
+                    z-index: 1;
+                "></div>
 
+                <!-- Image container with higher z-index and proper positioning -->
+                <div class="absolute left-1/2 -top-16 transform -translate-x-1/2 z-20">
+                    <img src="assets/wcu1.png" alt="Precision Engineering Expert" class="w-28 h-auto drop-shadow-md">
+                </div>
+
+                <div class="relative z-10 mt-12">
                     <h3 class="text-xl font-bold text-[#1a3c34] mb-6 text-center">
                         Expertise
-                        <span
-                            class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
+                        <span class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
                     </h3>
-
-                    <p class="text-gray-600">
+                    <p class="text-gray-700 font-medium">
                         Our team has extensive experience in the rotary industry.
                     </p>
                 </div>
+            </div>
 
-                <!-- Card 2: Quality -->
-                <div
-                    class="relative text-center bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-20 px-6 pb-8">
+            <!-- Card 2: Quality -->
+            <div class="relative text-center rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-16 px-6 pb-8 card-2" style="background: linear-gradient(135deg, #ffe8c5, #ffb08c, #e46b71, #b3475c); background-size: 300% 300%; animation: gradientFlow 8s ease infinite alternate;">
 
-                    <img src="assets/wcu2.png" alt="Security Specialist"
-                        class="w-28 h-auto mx-auto absolute -top-20 left-1/2 -translate-x-1/2">
+                <div class="absolute inset-0 rounded-xl pointer-events-none" style="
+                    background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.25) 0%, transparent 35%),
+                                radial-gradient(circle at 80% 70%, rgba(255, 245, 210, 0.3) 0%, transparent 40%),
+                                radial-gradient(circle at 10% 80%, rgba(190, 230, 255, 0.35) 0%, transparent 45%),
+                                radial-gradient(circle at 70% 20%, rgba(255, 220, 180, 0.3) 0%, transparent 40%);
+                    background-blend-mode: overlay, soft-light, screen, normal;
+                    opacity: 0.9;
+                    animation: waterRipple 6s cubic-bezier(0.45, 0.05, 0.2, 0.99) infinite alternate;
+                    mix-blend-mode: overlay;
+                    z-index: 1;
+                "></div>
 
+                <div class="absolute left-1/2 -top-16 transform -translate-x-1/2 z-20">
+                    <img src="assets/wcu2.png" alt="Security Specialist" class="w-28 h-auto drop-shadow-md">
+                </div>
+
+                <div class="relative z-10 mt-12">
                     <h3 class="text-xl font-bold text-[#1a3c34] mb-6 text-center">
                         Quality
-                        <span
-                            class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
+                        <span class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
                     </h3>
-                    <p class="text-gray-600">
+                    <p class="text-gray-700 font-medium">
                         We use high-quality and advanced technologies.
                     </p>
                 </div>
+            </div>
 
-                <!-- Card 3: Reliability -->
-                <div
-                    class="relative text-center bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-20 px-6 pb-8">
+            <!-- Card 3: Reliability -->
+            <div class="relative text-center rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-16 px-6 pb-8 card-3" style="background: linear-gradient(115deg, #b9f3e6, #a1d6e8, #b7a9e2, #967aa1); background-size: 300% 300%; animation: gradientFlow 7.5s ease infinite alternate;">
 
-                    <img src="assets/wcu3-removebg-preview.png" alt="Energy Efficiency Expert"
-                        class="w-28 h-auto mx-auto absolute -top-20 left-1/2 -translate-x-1/2">
+                <div class="absolute inset-0 rounded-xl pointer-events-none" style="
+                    background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.25) 0%, transparent 35%),
+                                radial-gradient(circle at 80% 70%, rgba(255, 245, 210, 0.3) 0%, transparent 40%),
+                                radial-gradient(circle at 10% 80%, rgba(190, 230, 255, 0.35) 0%, transparent 45%),
+                                radial-gradient(circle at 70% 20%, rgba(255, 220, 180, 0.3) 0%, transparent 40%);
+                    background-blend-mode: overlay, soft-light, screen, normal;
+                    opacity: 0.9;
+                    animation: waterRipple 6s cubic-bezier(0.45, 0.05, 0.2, 0.99) infinite alternate;
+                    mix-blend-mode: overlay;
+                    z-index: 1;
+                "></div>
 
+                <div class="absolute left-1/2 -top-16 transform -translate-x-1/2 z-20">
+                    <img src="assets/wcu3-removebg-preview.png" alt="Energy Efficiency Expert" class="w-28 h-auto drop-shadow-md">
+                </div>
+
+                <div class="relative z-10 mt-12">
                     <h3 class="text-xl font-bold text-[#1a3c34] mb-6 text-center">
                         Reliability
-                        <span
-                            class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
+                        <span class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
                     </h3>
-
-                    <p class="text-gray-600">
+                    <p class="text-gray-700 font-medium">
                         We deliver services on time, every time.
                     </p>
                 </div>
+            </div>
 
-                <!-- Card 4: Competitive Pricing -->
-                <div
-                    class="relative text-center bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-20 px-6 pb-8">
+            <!-- Card 4: Competitive Pricing -->
+            <div class="relative text-center rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 pt-16 px-6 pb-8 card-4" style="background: linear-gradient(145deg, #fee4b0, #fbc19c, #e8919b, #b98089); background-size: 300% 300%; animation: gradientFlow 8.5s ease infinite alternate;">
 
-                    <img src="assets/wcu4.png" alt="Competitive Pricing Expert"
-                        class="w-28 h-auto mx-auto absolute -top-20 left-1/2 -translate-x-1/2">
+                <div class="absolute inset-0 rounded-xl pointer-events-none" style="
+                    background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.25) 0%, transparent 35%),
+                                radial-gradient(circle at 80% 70%, rgba(255, 245, 210, 0.3) 0%, transparent 40%),
+                                radial-gradient(circle at 10% 80%, rgba(190, 230, 255, 0.35) 0%, transparent 45%),
+                                radial-gradient(circle at 70% 20%, rgba(255, 220, 180, 0.3) 0%, transparent 40%);
+                    background-blend-mode: overlay, soft-light, screen, normal;
+                    opacity: 0.9;
+                    animation: waterRipple 6s cubic-bezier(0.45, 0.05, 0.2, 0.99) infinite alternate;
+                    mix-blend-mode: overlay;
+                    z-index: 1;
+                "></div>
 
+                <div class="absolute left-1/2 -top-16 transform -translate-x-1/2 z-20">
+                    <img src="assets/wcu4.png" alt="Competitive Pricing Expert" class="w-28 h-auto drop-shadow-md">
+                </div>
+
+                <div class="relative z-10 mt-12">
                     <h3 class="text-xl font-bold text-[#1a3c34] mb-6 text-center">
                         Competitive Pricing
-                        <span
-                            class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
+                        <span class="block w-12 h-0.5 mt-2 mx-auto bg-gradient-to-r from-[#e74c3c] to-[#f5b642] rounded-full"></span>
                     </h3>
-
-                    <p class="text-gray-600">
+                    <p class="text-gray-700 font-medium">
                         We offer competitive pricing without compromising on quality.
                     </p>
                 </div>
-
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 <!-- Contact -->
 <section id="contact" class="relative py-16 px-6 overflow-hidden" style="background: linear-gradient(145deg, #f9fdfe 0%, #eef4fa 50%, #f3f8ff 100%);">
@@ -926,7 +1049,7 @@
 </div></div><p class="text-[#a0b8cc] text-sm leading-relaxed mb-4">Precision in Motion. Expert repair, refurbishment and engineering services for critical rotary equipment.</p><div class="flex space-x-4"><a href="#" class="w-10 h-10 bg-[#1e3a5f] rounded-full flex items-center justify-center hover:bg-[#2a5c7a] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.99h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.99C18.343 21.128 22 16.991 22 12z"/></svg></a><a href="#" class="w-10 h-10 bg-[#1e3a5f] rounded-full flex items-center justify-center hover:bg-[#2a5c7a] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a><a href="#" class="w-10 h-10 bg-[#1e3a5f] rounded-full flex items-center justify-center hover:bg-[#2a5c7a] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a></div></div>
       <div><h3 class="text-white font-bold text-lg mb-4 border-b border-[#1e3a5f] pb-2">Quick Links</h3><ul class="space-y-3"><li><a href="#home" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Home</a></li><li><a href="#about" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> About Us</a></li><li><a href="#services" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Services</a></li><li><a href="#industries" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Industries</a></li><li><a href="#contact" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Contact</a></li></ul></div>
       <div><h3 class="text-white font-bold text-lg mb-4 border-b border-[#1e3a5f] pb-2">Our Services</h3><ul class="space-y-3"><li><a href="#service-pumps" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Pump Repair</a></li><li><a href="#service-compressors" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Compressor Services</a></li><li><a href="#service-diesel-generators" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Diesel Generator Overhaul</a></li><li><a href="#service-reverse-engineering" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> Reverse Engineering</a></li><li><a href="#service-onsite-support" class="text-[#a0b8cc] hover:text-white transition flex items-center"><span class="text-[#2a5c7a] mr-2">›</span> On-site Support</a></li></ul></div>
-      <div><h3 class="text-white font-bold text-lg mb-4 border-b border-[#1e3a5f] pb-2">Contact Us</h3><ul class="space-y-4"><li class="flex items-start"><span class="text-[#2a5c7a] mr-3 mt-1">📍</span><span class="text-[#a0b8cc] text-sm">Bhiwandi, Thane, Maharashtra 421302, India</span></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">📞</span><a href="tel:+917021649368" class="text-[#a0b8cc] hover:text-white text-sm">+91 70216 49368</a></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">📧</span><a href="mailto:rotarytech.ind@gmail.com" class="text-[#a0b8cc] hover:text-white text-sm">rotarytech.ind@gmail.com</a></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">⏰</span><span class="text-[#a0b8cc] text-sm">24/7 Emergency Support</span></li></ul></div>
+      <div><h3 class="text-white font-bold text-lg mb-4 border-b border-[#1e3a5f] pb-2">Contact Us</h3><ul class="space-y-4"><li class="flex items-start"><span class="text-[#2a5c7a] mr-3 mt-1">📍</span><span class="text-[#a0b8cc] text-sm">Ground H No 46/37/A Own house, Mumbai nashik highway, Bhagat Tarachand hotel, vahuli village, padagha thane maharashtra 421101</span></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">📞</span><a href="tel:+919137915785" class="text-[#a0b8cc] hover:text-white text-sm">+91 9137915785</a></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">📧</span><a href="mailto:rotarytech.ind@gmail.com" class="text-[#a0b8cc] hover:text-white text-sm">rotarytech.ind@gmail.com</a></li><li class="flex items-center"><span class="text-[#2a5c7a] mr-3">⏰</span><span class="text-[#a0b8cc] text-sm">24/7 Emergency Support</span></li></ul></div>
     </div>
     <div class="border-t border-[#1e3a5f] my-8"></div>
     <div class="flex flex-col md:flex-row justify-between items-center text-sm"><div class="text-[#a0b8cc] mb-4 md:mb-0">© 2026 <span class="text-white font-semibold">ROTARY TECH</span> – Industrial Rotary Solutions</div><div class="flex gap-4"><span class="text-[#a0b8cc]">ISO 9001 Certified</span><span class="text-[#a0b8cc]">24/7 Emergency</span></div></div>
@@ -935,7 +1058,7 @@
 
 <!-- WhatsApp Floating Button -->
 <div class="fixed bottom-6 left-6 z-[9999]">
-  <a href="https://wa.me/9075030505?text=Hello%2C%20I'm%20interested%20in%20your%20rotary%20equipment%20services."
+  <a href="https://wa.me/9137915785?text=Hello%2C%20I'm%20interested%20in%20your%20rotary%20equipment%20services."
      target="_blank"
      class="group relative flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] shadow-2xl transition duration-300 hover:scale-110">
 
@@ -951,6 +1074,7 @@
 
   </a>
 </div>
+
 <!-- Back to Top Button with Wrench - Continuous Bouncy Effect -->
 <div class="fixed bottom-6 right-6 z-[9999]">
   <button
@@ -1035,13 +1159,68 @@ const btn = document.getElementById('back-to-top');
 window.addEventListener('scroll', () => { btn.classList.toggle('visible', window.scrollY > 300); });
 btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-// Mobile menu toggle
-const menuBtn = document.getElementById('menuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-menuBtn?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+document.addEventListener('DOMContentLoaded', function() {
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      mobileMenu.classList.toggle('hidden');
+      menuBtn.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+    });
+  }
+
+  // Mobile services dropdown fix
+  const mobileServicesToggle = document.getElementById('mobileServicesToggle');
+  const mobileServicesPanel = document.getElementById('mobileServicesPanel');
+  const mobileChevron = document.getElementById('mobileChevron');
+
+  if (mobileServicesToggle && mobileServicesPanel && mobileChevron) {
+    mobileServicesToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Toggle panel
+      mobileServicesPanel.classList.toggle('hidden');
+      
+      // Rotate chevron
+      if (mobileServicesPanel.classList.contains('hidden')) {
+        mobileChevron.style.transform = 'rotate(0deg)';
+      } else {
+        mobileChevron.style.transform = 'rotate(180deg)';
+      }
+    });
+  }
+
+  // Close mobile menu when clicking a link
+  document.querySelectorAll('#mobileMenu a').forEach(link => {
+    link.addEventListener('click', function() {
+      if (mobileMenu) {
+        mobileMenu.classList.add('hidden');
+        if (menuBtn) menuBtn.textContent = '☰';
+        
+        // Reset services panel
+        if (mobileServicesPanel && !mobileServicesPanel.classList.contains('hidden')) {
+          mobileServicesPanel.classList.add('hidden');
+          if (mobileChevron) mobileChevron.style.transform = 'rotate(0deg)';
+        }
+      }
+    });
+  });
+
+  // Prevent clicks inside mobile menu from closing it
+  if (mobileMenu) {
+    mobileMenu.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+  }
+});
 
 // redirectToWhatsApp stub
-window.redirectToWhatsApp = (cat, service) => { window.open(`https://wa.me/9075030505?text=Hello%2C%20I'm%20interested%20in%20${service}`, '_blank'); };
+window.redirectToWhatsApp = (cat, service) => { window.open(`https://wa.me/9137915785?text=Hello%2C%20I'm%20interested%20in%20${service}`, '_blank'); };
 
 // Show/hide button when scrolling
 const backToTopBtn = document.getElementById('back-to-top');
