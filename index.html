@@ -17,6 +17,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
   
+
+  <!-- EmailJS Library -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <style>
     :root {
       --oxford-blue: #0a192f;
@@ -549,7 +553,7 @@
       </div>
       <div class="relative group" id="about-img">
         <div class="absolute -inset-2 bg-gradient-to-r from-[#2a5c7a] to-[#d4af37] rounded-3xl blur-xl opacity-50 group-hover:opacity-80 transition"></div>
-        <img src="https://www.dxpe.com/wp-content/uploads/2025/07/pump-maintenance-and-repair-main.jpeg" alt="Industrial technician" class="rounded-2xl shadow-2xl relative w-full border-4 border-white">
+        <img src="assets/about1.jpg" alt="Industrial technician" class="rounded-2xl shadow-2xl relative w-full border-4 border-white">
       </div>
     </div>
   </div>
@@ -585,22 +589,22 @@
     </div>
 
     <!-- Cards container - all original styles preserved with subtle backdrop blur -->
-    <div class="services-container">
-      <!-- Rotary Equipment -->
-      <div class="category-services active" id="rotary-services">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-pumps"><div class="h-48 overflow-hidden"><img src="assets/s1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f] mb-2">Pump Repair & Refurbishment</h3><p class="text-[#2a5c7a] mb-4">Complete overhaul and repair for all industrial pumps.</p><button onclick="redirectToWhatsApp('rotary','Pump Repair')" class="inline-block bg-[#0a192f] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#1e3347] transition shadow-md">Contact Us</button></div></div>
-          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-compressors"><div class="h-48 overflow-hidden"><img src="assets/s2.jpg" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Compressor Services</h3><p class="text-[#2a5c7a] mb-4">Rotary screw, centrifugal compressors.</p><button onclick="redirectToWhatsApp('rotary','Compressor Services')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div>
-          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-diesel-generators"><div class="h-48 overflow-hidden"><img src="assets/s3.jpg" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Diesel Generator Overhaul</h3><p class="text-[#2a5c7a] mb-4">Complete DG set repair, load testing.</p><button onclick="redirectToWhatsApp('rotary','DG Overhaul')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div>
-          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-overhaul"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Overhaul & Upgrade</h3><p class="text-[#2a5c7a] mb-4">Laser alignment, vibration analysis.</p><button onclick="redirectToWhatsApp('rotary','Overhaul & Upgrade')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div>
-          <div class="service-card bg-white/95 backdrop-blur-sm" id="service-advanced-tech"><div class="h-48 overflow-hidden"><img src="assets/s5.png" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Advanced Repair Technologies</h3><p class="text-[#2a5c7a] mb-4">Laser cladding, thermal spraying.</p><button onclick="redirectToWhatsApp('rotary','Advanced Repair')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div>
-        </div>
-      </div>
-      <!-- Engineering Services Cards -->
-      <div class="category-services hidden" id="engineering-services"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"><div class="service-card bg-white/95 backdrop-blur-sm" id="service-installation"><div class="h-48 overflow-hidden"><img src="assets/s6.webp"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Installation & Commissioning</h3><p class="text-[#2a5c7a] mb-4">Site prep, alignment, commissioning.</p><button onclick="redirectToWhatsApp('engineering','Installation')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-emergency-spares"><div class="h-48 overflow-hidden"><img src="assets/s7.webp"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Emergency Spares Fabrication</h3><p class="text-[#2a5c7a] mb-4">Rapid CNC fabrication.</p><button onclick="redirectToWhatsApp('engineering','Emergency Spares')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-reverse-engineering"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Reverse Engineering</h3><p class="text-[#2a5c7a] mb-4">3D scanning, CAD for obsolete parts.</p><button onclick="redirectToWhatsApp('engineering','Reverse Engineering')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div></div></div>
-      <!-- Manpower Cards -->
-      <div class="category-services hidden" id="manpower-services"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"><div class="service-card bg-white/95 backdrop-blur-sm" id="service-onsite-support"><div class="h-48 overflow-hidden"><img src="assets/s9.jfif"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">On-site Technical Support</h3><p class="text-[#2a5c7a] mb-4">Trained technicians emergency support.</p><button onclick="redirectToWhatsApp('manpower','On-site Support')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-offsite-support"><div class="h-48 overflow-hidden"><img src="assets/s10.jpg"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Off-site Engineering Support</h3><p class="text-[#2a5c7a] mb-4">Remote troubleshooting.</p><button onclick="redirectToWhatsApp('manpower','Off-site Support')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-maintenance"><div class="h-48 overflow-hidden"><img src="assets/s11.jpg"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Equipment Maintenance Experts</h3><p class="text-[#2a5c7a] mb-4">Predictive maintenance.</p><button onclick="redirectToWhatsApp('manpower','Maintenance Experts')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button></div></div></div></div>
+   <div class="services-container">
+  <!-- Rotary Equipment -->
+  <div class="category-services active" id="rotary-services">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+      <div class="service-card bg-white/95 backdrop-blur-sm" id="service-pumps"><div class="h-48 overflow-hidden"><img src="assets/s1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f] mb-2">Pump Repair & Refurbishment</h3><p class="text-[#2a5c7a] mb-4">Complete overhaul and repair for all industrial pumps. Whether it's centrifugal pumps or reciprocating pumps.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('rotary','Pump Repair')" class="inline-block bg-[#0a192f] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#1e3347] transition shadow-md">Contact</button><button onclick="redirectToEmail('Pump Repair')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div>
+      <div class="service-card bg-white/95 backdrop-blur-sm" id="service-compressors"><div class="h-48 overflow-hidden"><img src="assets/S2.png" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Compressor Services</h3><p class="text-[#2a5c7a] mb-4">Rotary screw, centrifugal compressors. From reciprocating to centrifugal compressors.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('rotary','Compressor Services')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('Compressor Services')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div>
+      <div class="service-card bg-white/95 backdrop-blur-sm" id="service-diesel-generators"><div class="h-48 overflow-hidden"><img src="assets/s3.jpg" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Diesel Generator Overhaul</h3><p class="text-[#2a5c7a] mb-4">Complete DG set repair, load testing.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('rotary','DG Overhaul')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('DG Overhaul')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div>
+      <div class="service-card bg-white/95 backdrop-blur-sm" id="service-overhaul"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Overhaul & Upgrade</h3><p class="text-[#2a5c7a] mb-4">Laser alignment, vibration analysis.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('rotary','Overhaul & Upgrade')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('Overhaul & Upgrade')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div>
+      <div class="service-card bg-white/95 backdrop-blur-sm" id="service-advanced-tech"><div class="h-48 overflow-hidden"><img src="assets/s5.png" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Advanced Repair Technologies</h3><p class="text-[#2a5c7a] mb-4">Laser cladding, thermal spraying.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('rotary','Advanced Repair')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('Advanced Repair')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div>
     </div>
+  </div>
+  <!-- Engineering Services Cards -->
+  <div class="category-services hidden" id="engineering-services"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"><div class="service-card bg-white/95 backdrop-blur-sm" id="service-installation"><div class="h-48 overflow-hidden"><img src="assets/s6.webp"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Installation & Commissioning</h3><p class="text-[#2a5c7a] mb-4">Site prep, alignment, commissioning.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('engineering','Installation')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('Installation & Commissioning')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-emergency-spares"><div class="h-48 overflow-hidden"><img src="assets/s7.webp"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Emergency Spares Fabrication</h3><p class="text-[#2a5c7a] mb-4">Rapid CNC fabrication.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('engineering','Emergency Spares')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('Emergency Spares Fabrication')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-reverse-engineering"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=300&fit=crop&auto=format"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Reverse Engineering</h3><p class="text-[#2a5c7a] mb-4">3D scanning, CAD for obsolete parts.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('engineering','Reverse Engineering')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('Reverse Engineering')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div></div></div>
+  <!-- Manpower Cards -->
+  <div class="category-services hidden" id="manpower-services"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"><div class="service-card bg-white/95 backdrop-blur-sm" id="service-onsite-support"><div class="h-48 overflow-hidden"><img src="assets/s9.jfif"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Off-site Technical Support</h3><p class="text-[#2a5c7a] mb-4">Trained technicians emergency support.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('manpower','On-site Support')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('Off-site Technical Support')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-offsite-support"><div class="h-48 overflow-hidden"><img src="assets/s10.jpg"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">On-site Engineering Support</h3><p class="text-[#2a5c7a] mb-4">Remote troubleshooting.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('manpower','Off-site Support')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('On-site Engineering Support')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div><div class="service-card bg-white/95 backdrop-blur-sm" id="service-maintenance"><div class="h-48 overflow-hidden"><img src="assets/s11.jpg"></div><div class="p-6"><h3 class="text-xl font-bold text-[#0a192f]">Equipment Maintenance Experts</h3><p class="text-[#2a5c7a] mb-4">Predictive maintenance.</p><div class="flex flex-wrap gap-3"><button onclick="redirectToWhatsApp('manpower','Maintenance Experts')" class="bg-[#0a192f] text-white px-6 py-2 rounded-lg">Contact</button><button onclick="redirectToEmail('Equipment Maintenance Experts')" class="inline-block bg-white text-[#0a192f] border border-[#0a192f] px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition shadow-md">Email Us</button></div></div></div></div></div>
+</div>
   </div>
 </section>
 
@@ -654,7 +658,7 @@
         </div>
         
         <!-- Testimonial - compact -->
-        <div class="relative bg-[#1a2535] rounded-xl p-4 text-white border border-[#4f6f8f]/30">
+        <!-- <div class="relative bg-[#1a2535] rounded-xl p-4 text-white border border-[#4f6f8f]/30">
           <p class="text-xs italic text-[#e0e8f0]">“ROTARY TECH had our compressor back online in 24 hours. Unmatched expertise.”</p>
           <div class="flex items-center gap-2 mt-2">
             <div class="w-6 h-6 rounded-full bg-[#d4af37] flex items-center justify-center text-xs font-bold text-[#0a192f]">VK</div>
@@ -663,7 +667,7 @@
               <p class="text-[9px] text-[#a0b8cc]">Maintenance Director, IndianOil</p>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Right column - industry cards compact -->
@@ -720,7 +724,7 @@
 </div>
         
         <!-- Global footprint - compact -->
-        <div class="col-span-2 bg-gradient-to-r from-[#1f2e40] to-[#0f1a24] rounded-xl p-3 flex items-center justify-between border border-[#4f6f8f]/30">
+        <!-- <div class="col-span-2 bg-gradient-to-r from-[#1f2e40] to-[#0f1a24] rounded-xl p-3 flex items-center justify-between border border-[#4f6f8f]/30">
           <div>
             <span class="text-[10px] uppercase tracking-wider text-[#d4af37] font-bold">🌍 global</span>
             <p class="text-sm font-bold text-white">Serving 15+ countries</p>
@@ -730,7 +734,7 @@
             </div>
           </div>
           <span class="text-3xl opacity-30">🌍</span>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -928,94 +932,113 @@
     <!-- main grid: left map/contacts + right form -->
     <div class="grid lg:grid-cols-2 gap-6">
       
-      <!-- left column - map & contact pills -->
-      <div class="space-y-4">
-        <!-- map card - with subtle icon overlay -->
-        <div class="bg-white/95 backdrop-blur-sm rounded-xl overflow-hidden border border-[#4f6f8f]/20 shadow-lg relative">
-          <div class="absolute top-2 right-2 text-[#4f6f8f]/15 text-3xl z-10 animate-spin-slow">⚙️</div>
-          <div class="relative h-48 md:h-56">
-            <iframe 
-              class="absolute inset-0 w-full h-full" 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.8!2d73.058!3d19.300!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b8e!2sBhiwandi%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1730000000000!5m2!1sen!2sin" 
-              style="border:0;" allowfullscreen loading="lazy">
-            </iframe>
-            <!-- location badge -->
-            <div class="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-lg border border-[#4f6f8f]/20 shadow-md text-xs">
-              <div class="flex items-center gap-1">
-                <span class="text-[#4f6f8f]">📍</span>
-                <strong class="text-[#0a192f]">Bhiwandi, Thane</strong>
-              </div>
-              <span class="text-[#4f6f8f] ml-4">Maharashtra, India</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- contact quick pills - clean 3-col -->
-        <div class="bg-white/95 backdrop-blur-sm rounded-lg py-4 px-4 border border-[#4f6f8f]/20 shadow-md flex items-start gap-3 hover:shadow-lg transition">
-  
-  <span class="text-xl text-[#4f6f8f]">📍</span>
-  
-  <p class="text-sm text-[#0a192f] leading-relaxed">
-    Ground H No 46/37/A, Mumbai Nashik Highway,<br>
-    Near Bhagat Tarachand Hotel, Vahuli Village,<br>
-    Padagha, Thane, Maharashtra 421101
-  </p>
-
-</div>
+      <!-- left column - map & contact info -->
+<div class="space-y-4">
+  <!-- map card -->
+  <div class="bg-white/95 backdrop-blur-sm rounded-xl overflow-hidden border border-[#4f6f8f]/20 shadow-lg">
+    <div class="relative h-48 md:h-52">
+      <iframe 
+        class="absolute inset-0 w-full h-full" 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.8!2d73.058!3d19.300!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b8e!2sBhiwandi%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1730000000000!5m2!1sen!2sin" 
+        style="border:0;" allowfullscreen loading="lazy">
+      </iframe>
+      <div class="absolute bottom-2 left-2 bg-white/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-[#4f6f8f]/20 text-xs">
+        <span class="text-[#4f6f8f]">📍</span>
+        <strong class="text-[#0a192f]">Bhiwandi, Thane</strong>
       </div>
+    </div>
+  </div>
+
+  <!-- Contact Card - Compact -->
+  <div class="bg-white/95 backdrop-blur-sm rounded-xl border border-[#4f6f8f]/20 shadow-lg p-4">
+    
+    <!-- Address - Compact -->
+    <div class="flex gap-2 mb-3 pb-2 border-b border-[#4f6f8f]/15">
+      <span class="text-[#4f6f8f] text-lg">📍</span>
+      <p class="text-xs text-[#0a192f] leading-relaxed">
+        House No 46/37/A, Mumbai Nashik Hwy, Near Bhagat Tarachand Hotel, Vahuli Village, Padagha, Thane 421101
+      </p>
+    </div>
+    
+    <!-- Phone Numbers - Compact -->
+    <div class="flex gap-2 mb-3 pb-2 border-b border-[#4f6f8f]/15">
+      <span class="text-[#4f6f8f] text-lg">📞</span>
+      <div class="flex-1">
+        <a href="tel:+919137915785" class="block text-sm text-[#0a192f] hover:text-[#2a5c7a] transition">+91 91379 15785</a>
+        <a href="tel:+917021649368" class="block text-sm text-[#0a192f] hover:text-[#2a5c7a] transition mt-0.5">+91 70216 49368</a>
+      </div>
+    </div>
+    
+    <!-- Email - Compact -->
+    <div class="flex gap-2">
+      <span class="text-[#4f6f8f] text-lg">✉️</span>
+      <a href="mailto:rotarytech.ind@gmail.com" class="text-sm text-[#0a192f] hover:text-[#2a5c7a] transition break-all">rotarytech.ind@gmail.com</a>
+    </div>
+    
+    <!-- Emergency Badge - Compact -->
+    <div class="mt-3 pt-2 text-center">
+      <span class="inline-flex items-center gap-1.5 bg-[#d4af37]/10 px-2 py-1 rounded-full text-[10px] font-semibold text-[#0a192f] border border-[#d4af37]/30">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4af37]"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#d4af37]"></span>
+        </span>
+        24/7 Emergency Support
+      </span>
+    </div>
+  </div>
+</div>
 
       <!-- right column - urgent inquiry form -->
-      <div class="bg-white/95 backdrop-blur-sm rounded-xl border border-[#4f6f8f]/20 p-6 shadow-lg relative">
-        <!-- subtle icon decorations (just 2) -->
-        <div class="absolute -top-2 -right-2 text-[#4f6f8f]/10 text-3xl animate-spin-slow">⚙️</div>
-        <div class="absolute -bottom-2 -left-2 text-[#4f6f8f]/10 text-3xl animate-bounce-slow">🔧</div>
-        
-        <h3 class="text-lg font-bold text-[#0a192f] mb-4 flex items-center gap-2">
-          <span class="w-1 h-5 bg-[#4f6f8f] rounded-full"></span>
-          Urgent Rotary Inquiry
-        </h3>
-        
-        <form class="space-y-3">
-          <div class="relative">
-            <input type="text" placeholder="Name *" required 
-                   class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
-            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">👤</span>
-          </div>
-          
-          <div class="relative">
-            <input type="email" placeholder="Email *" required 
-                   class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
-            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">✉️</span>
-          </div>
-          
-          <div class="relative">
-            <input type="tel" placeholder="Phone (optional)" 
-                   class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
-            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">📱</span>
-          </div>
-          
-          <div class="relative">
-            <textarea rows="2" placeholder="Equipment issue & urgency *" required 
-                      class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9 resize-none"></textarea>
-            <span class="absolute left-3 top-3 text-[#4f6f8f] text-sm">⚙️</span>
-          </div>
-          
-          <button type="submit" 
-                  class="w-full bg-[#0a192f] hover:bg-[#1e3347] text-white font-semibold py-2.5 rounded-lg transition text-sm mt-2 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-            <span>Send Request</span>
-            <span>⚡</span>
-          </button>
-        </form>
-        
-        <p class="text-[10px] text-center text-[#4f6f8f] mt-3 flex items-center justify-center gap-1">
-          <span>⚙️</span> Immediate callback for critical failures
-        </p>
-      </div>
+<div class="bg-white/95 backdrop-blur-sm rounded-xl border border-[#4f6f8f]/20 p-6 shadow-lg relative">
+  <!-- subtle icon decorations -->
+  <div class="absolute -top-2 -right-2 text-[#4f6f8f]/10 text-3xl animate-spin-slow">⚙️</div>
+  <div class="absolute -bottom-2 -left-2 text-[#4f6f8f]/10 text-3xl animate-bounce-slow">🔧</div>
+  
+  <h3 class="text-lg font-bold text-[#0a192f] mb-4 flex items-center gap-2">
+    <span class="w-1 h-5 bg-[#4f6f8f] rounded-full"></span>
+    Urgent Rotary Inquiry
+  </h3>
+  
+  <form id="rotary-contact-form" class="space-y-3">
+    <div class="relative">
+      <input type="text" id="contact-name" name="name" placeholder="Name *" required 
+             class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">👤</span>
+    </div>
+    
+    <div class="relative">
+      <input type="email" id="contact-email" name="email" placeholder="Email *" required 
+             class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">✉️</span>
+    </div>
+    
+    <div class="relative">
+      <input type="tel" id="contact-phone" name="phone" placeholder="Phone (optional)" 
+             class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9">
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4f6f8f] text-sm">📱</span>
+    </div>
+    
+    <div class="relative">
+      <textarea id="contact-message" name="message" rows="2" placeholder="Equipment issue & urgency *" required 
+                class="w-full px-4 py-2.5 rounded-lg bg-[#f8fafc] border border-[#4f6f8f]/20 text-[#0a192f] text-sm placeholder:text-[#4f6f8f]/60 focus:border-[#4f6f8f] focus:outline-none focus:ring-1 focus:ring-[#4f6f8f]/30 pl-9 resize-none"></textarea>
+      <span class="absolute left-3 top-3 text-[#4f6f8f] text-sm">⚙️</span>
+    </div>
+    
+    <button type="submit" 
+            class="w-full bg-[#0a192f] hover:bg-[#1e3347] text-white font-semibold py-2.5 rounded-lg transition text-sm mt-2 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+      <span>Send Request</span>
+      <span>⚡</span>
+    </button>
+  </form>
+  
+  <p class="text-[10px] text-center text-[#4f6f8f] mt-3 flex items-center justify-center gap-1">
+    <span>⚙️</span> Immediate callback for critical failures
+  </p>
+</div>
     </div>
 
     <!-- trust badges - clean -->
     <div class="flex justify-center gap-4 mt-6 text-xs text-[#4f6f8f]">
-      <span class="flex items-center gap-1"><span class="text-sm">⚙️</span>ISO 9001</span>
       <span class="text-[#4f6f8f]/30">|</span>
       <span class="flex items-center gap-1"><span class="text-sm">🔧</span>24/7 Rotary Support</span>
       <span class="text-[#4f6f8f]/30">|</span>
@@ -1105,13 +1128,13 @@
           <li class="flex items-start">
             <span class="text-[#2a5c7a] mr-3 mt-1">📍</span>
             <span class="text-[#a0b8cc] text-sm">
-              Ground H No 46/37/A, Mumbai Nashik Highway, Bhagat Tarachand hotel, vahuli village, padagha thane maharashtra 421101
+              House No 46/37/A, Mumbai Nashik Highway, Bhagat Tarachand hotel, vahuli village, padagha thane maharashtra 421101
             </span>
           </li>
 
           <li class="flex items-center">
             <span class="text-[#2a5c7a] mr-3">📞</span>
-            <a href="tel:+919137915785" class="text-[#a0b8cc] hover:text-white text-sm">+91 9137915785</a>
+            <a href="tel:+919137915785" class="text-[#a0b8cc] hover:text-white text-sm">+91 9137915785/ 7021649368</a>
           </li>
 
           <li class="flex items-center">
@@ -1136,9 +1159,11 @@
       </div>
 
       <div class="flex gap-4">
-        <span class="text-[#a0b8cc]">ISO 9001 Certified</span>
-        <span class="text-[#a0b8cc]">24/7 Emergency</span>
-      </div>
+  <a href="https://kunashmedia.com/" target="_blank" rel="noopener noreferrer"
+     class="text-[#a0b8cc] hover:underline">
+    ~Developed by Kunash Media
+  </a>
+</div>
     </div>
 
   </div>
@@ -1342,6 +1367,158 @@ backToTopBtn.addEventListener('click', () => {
     behavior: 'smooth'
   });
 });
+
+// Email function that always opens Gmail web version
+window.redirectToEmail = (service) => {
+    const email = 'rotarytech.ind@gmail.com';
+    const subject = `Inquiry about ${service} from Website`;
+    const body = `Hello Rotary Tech team,\n\nI am interested in your service: ${service}.\n\nPlease share more details.\n\nThank you.`;
+    
+    // Encode for URL
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(body);
+    
+    // Open Gmail compose window
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodedSubject}&body=${encodedBody}`;
+    
+    // Open in new tab/window
+    window.open(gmailLink, '_blank');
+    
+    console.log(`Opening Gmail for service: ${service}`);
+};
+
+
+// Initialize EmailJS - Replace with your actual Public Key
+(function() {
+    emailjs.init("uUk2qzz7LrXMGZSoU"); // Replace with your actual public key
+})();
+
+// Handle contact form submission
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.querySelector('#contact form');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = this.querySelector('input[placeholder="Name *"]').value;
+            const email = this.querySelector('input[placeholder="Email *"]').value;
+            const phone = this.querySelector('input[placeholder="Phone (optional)"]').value;
+            const message = this.querySelector('textarea[placeholder="Equipment issue & urgency *"]').value;
+            
+            // Validation
+            if (!name || !email || !message) {
+                showNotification('Please fill all required fields!', 'error');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showNotification('Please enter a valid email address!', 'error');
+                return;
+            }
+            
+            // Get current date/time
+            const now = new Date();
+            const dateTime = now.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+            
+            // Prepare template parameters
+            const templateParams = {
+                name: name,
+                email: email,
+                phone: phone || 'Not provided',
+                message: message,
+                date: dateTime
+            };
+            
+            // Disable submit button and show loading
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Sending...</span><span>⏳</span>';
+            
+            // Send email via EmailJS
+            emailjs.send(
+                'service_pxhyln5',      // Replace with your Service ID
+                'template_en7qyt8',     // Replace with your Template ID
+                templateParams
+            ).then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                
+                // Show success message
+                showNotification('✅ Your inquiry has been sent successfully! We will contact you shortly.', 'success');
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+                
+            }, function(error) {
+                console.log('FAILED...', error);
+                
+                // Show error message
+                showNotification('❌ Failed to send message. Please try again or contact us directly.', 'error');
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            });
+        });
+    }
+});
+
+// Notification function
+function showNotification(message, type) {
+    // Remove existing notification if any
+    const existingNotif = document.querySelector('.form-notification');
+    if (existingNotif) {
+        existingNotif.remove();
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `form-notification fixed top-24 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg text-white text-sm font-medium transition-all duration-300 ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    }`;
+    notification.style.animation = 'slideDown 0.3s ease-out';
+    notification.innerHTML = message;
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 5000);
+}
+
+// Add CSS for notification animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -20px);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+    .form-notification {
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+`;
+document.head.appendChild(style);
+
 </script>
 
 </body>
